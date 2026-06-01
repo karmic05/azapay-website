@@ -46,12 +46,16 @@ Vision/Mission · Waitlist · Footer.
 
 The site passed a multi-dimension review; a few items are deliberately left as launch-time TODOs:
 
-- **Domain.** Replace every `https://azapay.example/` with your real production origin —
-  in the `<link rel="canonical">`, `og:url`, and the JSON-LD `@id`/`url`/`logo` fields.
-- **Social image.** `assets/og-cover.png` (1200×630) is generated and referenced via a
-  relative path so it works locally and on deploy. For maximum crawler compatibility,
-  switch `og:image` / `twitter:image` to the absolute URL once the domain is live.
+- **Live URL.** Deployed at <https://azapay-website.vercel.app>. Canonical, `og:url`,
+  `og:image`, `twitter:image`, and the JSON-LD URLs all point at this Vercel URL. When you
+  add a custom domain, replace `azapay-website.vercel.app` everywhere in `<head>`.
 - **Waitlist.** Point the form at a real email/CRM endpoint (currently client-side only).
+
+## Deployment
+
+- **GitHub:** <https://github.com/karmic05/azapay-website> (push to `main`).
+- **Vercel:** linked to the GitHub repo — every push to `main` auto-deploys to production.
+  Manual deploy: `vercel --prod` from this folder.
 
 ## Customise
 

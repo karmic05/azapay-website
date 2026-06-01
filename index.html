@@ -9,19 +9,19 @@
   <meta name="keywords" content="AzaPay, digital banking Nigeria, AI credit, financial inclusion, unbanked, trust score, BVN, NIN, fintech Nigeria, alternative credit scoring" />
   <meta name="author" content="AzaPay" />
 
-  <!-- Canonical / production origin.
-       LAUNCH TODO: replace azapay.example with your real domain, and switch the
-       og:image / twitter:image below to the matching absolute URL for best crawler support. -->
-  <link rel="canonical" href="https://azapay.example/" />
+  <!-- Canonical / production origin (currently the Vercel URL).
+       When you add a custom domain, replace azapay-website.vercel.app everywhere below
+       (canonical, og:url, og:image, twitter:image, and the JSON-LD URLs) with your domain. -->
+  <link rel="canonical" href="https://azapay-website.vercel.app/" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://azapay.example/" />
+  <meta property="og:url" content="https://azapay-website.vercel.app/" />
   <meta property="og:title" content="AzaPay — Banking the Unbanked" />
   <meta property="og:description" content="Turn everyday money moves into real credit. Digital payments, savings, and AI-powered loans for financially invisible Nigerians." />
   <meta property="og:site_name" content="AzaPay" />
   <meta property="og:locale" content="en_NG" />
-  <meta property="og:image" content="assets/og-cover.png" />
+  <meta property="og:image" content="https://azapay-website.vercel.app/assets/og-cover.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="AzaPay — Banking the Unbanked" />
@@ -30,7 +30,7 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="AzaPay — Banking the Unbanked" />
   <meta name="twitter:description" content="Digital payments, savings, and AI-powered credit for unbanked Nigerians." />
-  <meta name="twitter:image" content="assets/og-cover.png" />
+  <meta name="twitter:image" content="https://azapay-website.vercel.app/assets/og-cover.png" />
   <meta name="twitter:image:alt" content="AzaPay — Banking the Unbanked" />
 
   <!-- Favicon (inline SVG) -->
@@ -43,26 +43,26 @@
 
   <link rel="stylesheet" href="styles.css" />
 
-  <!-- Structured data. LAUNCH TODO: replace azapay.example with your real domain and add sameAs social links once profiles exist. -->
+  <!-- Structured data. Uses the live Vercel URL; swap to a custom domain when added, and add sameAs social links once profiles exist. -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "Organization",
-        "@id": "https://azapay.example/#organization",
+        "@id": "https://azapay-website.vercel.app/#organization",
         "name": "AzaPay",
-        "url": "https://azapay.example/",
-        "logo": "https://azapay.example/assets/og-cover.png",
+        "url": "https://azapay-website.vercel.app/",
+        "logo": "https://azapay-website.vercel.app/assets/og-cover.png",
         "description": "AzaPay is a digital banking and AI-powered credit platform for unbanked and underbanked Nigerians, building a Financial Trust Score from real behaviour.",
         "areaServed": { "@type": "Country", "name": "Nigeria" }
       },
       {
         "@type": "WebSite",
-        "@id": "https://azapay.example/#website",
-        "url": "https://azapay.example/",
+        "@id": "https://azapay-website.vercel.app/#website",
+        "url": "https://azapay-website.vercel.app/",
         "name": "AzaPay",
-        "publisher": { "@id": "https://azapay.example/#organization" },
+        "publisher": { "@id": "https://azapay-website.vercel.app/#organization" },
         "inLanguage": "en-NG"
       }
     ]
