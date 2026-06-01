@@ -29,8 +29,12 @@ Multi-page static site — each menu item is its own page, with a shared header/
 | `how-it-works.html` | How it works | 5-step onboarding, the 3 KYC tiers, inclusion, payment rails |
 | `about.html` | About | Vision / mission / goal + compliance & privacy (`#compliance`) |
 | `waitlist.html` | Join the waitlist | The email signup form |
+| `sandbox.html` | Sandbox | Interactive Stripe test-mode simulation (loan → disburse → top-up) |
 | `styles.css` | — | Brand design system (emerald + gold), layout, responsive rules, animations |
 | `script.js` | — | Sticky/mobile nav, scroll-reveal, animated counters, Trust Score gauge, waitlist form |
+| `sandbox.js` | — | Sandbox logic: loan-approval/disbursement simulation + Stripe top-up |
+| `api/create-checkout-session.js` | — | Serverless: creates a Stripe **test-mode** Checkout Session (secret key server-side) |
+| `api/checkout-session.js` | — | Serverless: verifies a session on return from Stripe |
 | `assets/og-cover.png` | — | 1200×630 social-share image |
 
 The shared `<header>`/`<footer>` markup is duplicated in each page (static site, no templating).
@@ -57,11 +61,44 @@ The site passed a multi-dimension review; a few items are deliberately left as l
   add a custom domain, replace `azapay-website.vercel.app` everywhere in `<head>`.
 - **Waitlist.** Point the form at a real email/CRM endpoint (currently client-side only).
 
+## Payments sandbox (Stripe test mode)
+
+The **Sandbox** page (`sandbox.html`) simulates the AzaPay journey:
+
+1. **Get approved** — a Trust Score slider drives the loan limit (pure front-end simulation).
+2. **Disburse to wallet** — credits the simulated wallet balance (a live build would use
+   Stripe Connect transfers/payouts).
+3. **Add money to wallet** — a **real Stripe test-mode Checkout** via the serverless functions.
+
+Steps 1 & 2 work with no configuration. Step 3 needs a Stripe **test** secret key.
+
+### Enable the Stripe step
+
+1. Create a free account at <https://dashboard.stripe.com/register> (test mode works
+   immediately — no business activation required).
+2. With **Test mode** on, copy your secret key (`sk_test_…`) from **Developers → API keys**.
+3. Add it to the Vercel project and redeploy:
+   ```bash
+   vercel env add STRIPE_SECRET_KEY production   # paste the sk_test_… key when prompted
+   vercel --prod
+   ```
+   (Add it to `preview`/`development` too if you use `vercel dev`.)
+4. On the Sandbox page, run step 3 with test card **4242 4242 4242 4242**, any future
+   expiry, any CVC.
+
+Notes:
+- The secret key lives **only** in `STRIPE_SECRET_KEY` (server-side); it is never sent to
+  the browser. The functions refuse live keys (`sk_live_…`) so the sandbox can't move real money.
+- No npm dependency — the functions call Stripe's REST API with `fetch`.
+- Currency defaults to **NGN**. If your test account rejects NGN, set `CURRENCY = 'usd'`
+  at the top of `api/create-checkout-session.js`.
+
 ## Deployment
 
 - **GitHub:** <https://github.com/karmic05/azapay-website> (push to `main`).
 - **Vercel:** linked to the GitHub repo — every push to `main` auto-deploys to production.
-  Manual deploy: `vercel --prod` from this folder.
+  Manual deploy: `vercel --prod` from this folder. The `/api/*.js` files deploy as
+  serverless functions automatically (no config needed).
 
 ## Customise
 

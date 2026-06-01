@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#07502F" />
+  <title>Payments Sandbox — Stripe Test-Mode Simulation | AzaPay</title>
+  <meta name="description" content="An interactive, test-mode simulation of the AzaPay journey — loan approval, disbursement, and adding money to your wallet via a real Stripe test-mode Checkout. No real money moves." />
+  <meta name="author" content="AzaPay" />
+  <meta name="robots" content="noindex" />
+
+  <link rel="canonical" href="https://azapay-website.vercel.app/sandbox.html" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://azapay-website.vercel.app/sandbox.html" />
+  <meta property="og:title" content="AzaPay Payments Sandbox" />
+  <meta property="og:description" content="A test-mode simulation of loan approval, disbursement, and wallet top-up, powered by Stripe test mode." />
+  <meta property="og:site_name" content="AzaPay" />
+  <meta property="og:locale" content="en_NG" />
+  <meta property="og:image" content="https://azapay-website.vercel.app/assets/og-cover.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="AzaPay — Banking the Unbanked" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="AzaPay Payments Sandbox" />
+  <meta name="twitter:description" content="A test-mode simulation of loan approval, disbursement, and wallet top-up." />
+  <meta name="twitter:image" content="https://azapay-website.vercel.app/assets/og-cover.png" />
+  <meta name="twitter:image:alt" content="AzaPay — Banking the Unbanked" />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%2307502F'/%3E%3Cpath d='M30 70 L50 28 L70 70 M38 56 L62 56' stroke='%23F4B740' stroke-width='9' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="nav" id="nav">
+    <div class="container nav__inner">
+      <a href="index.html" class="brand" aria-label="AzaPay home">
+        <span class="brand__mark" aria-hidden="true">
+          <svg viewBox="0 0 100 100" width="34" height="34">
+            <rect width="100" height="100" rx="24" fill="#07502F"/>
+            <path d="M30 70 L50 28 L70 70 M38 56 L62 56" stroke="#F4B740" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+        </span>
+        <span class="brand__name">AzaPay</span>
+      </a>
+      <nav class="nav__links" id="navLinks" aria-label="Primary">
+        <a href="product.html">Product</a>
+        <a href="trust-score.html">Trust Score</a>
+        <a href="credit.html">Credit</a>
+        <a href="how-it-works.html">How it works</a>
+        <a href="about.html">About</a>
+        <a href="sandbox.html" aria-current="page">Sandbox</a>
+        <a href="waitlist.html" class="btn btn--primary btn--sm nav__cta">Join the waitlist</a>
+      </nav>
+      <button class="nav__toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <section class="page-hero">
+      <div class="container">
+        <span class="eyebrow reveal">Interactive demo</span>
+        <h1 class="reveal">Payments Sandbox</h1>
+        <p class="page-hero__sub reveal">
+          Walk the AzaPay journey in test mode — get a loan approved, disburse it to your
+          wallet, then add money with a real <strong>Stripe test-mode</strong> checkout.
+          Nothing here moves real money.
+        </p>
+      </div>
+    </section>
+
+    <section class="section section--top">
+      <div class="container sbx">
+        <p class="sandbox-notice" role="note">
+          <span aria-hidden="true">🧪</span> <strong>Test mode.</strong> No real money moves. For the card step, use Stripe's
+          test card <code>4242 4242 4242 4242</code>, any future expiry, and any CVC.
+        </p>
+
+        <div class="wallet-card">
+          <div>
+            <p class="wallet-card__label">Wallet balance</p>
+            <p class="wallet-card__bal" id="balance">₦0</p>
+          </div>
+          <div class="wallet-card__score">
+            <p class="wallet-card__label">Trust Score</p>
+            <p class="wallet-card__scoreval" id="scoreVal">724</p>
+          </div>
+          <button class="btn btn--ghost btn--sm" id="resetBtn" type="button">Reset demo</button>
+        </div>
+
+        <div id="alert" class="sbx-alert info" role="status" aria-live="polite" hidden></div>
+
+        <!-- Step 1 -->
+        <article class="sbx-step" id="step1">
+          <div class="sbx-step__head"><span class="sbx-step__n" aria-hidden="true">1</span><h2>Get approved</h2></div>
+          <p>Your Trust Score sets your limit — drag it to see how behaviour changes credit access.</p>
+          <label class="sbx-field" for="scoreRange">
+            <span>Trust Score: <b id="scoreOut">724</b></span>
+            <input type="range" id="scoreRange" min="300" max="850" step="1" value="724" />
+          </label>
+          <p class="sbx-elig">You qualify for up to <b id="maxLimit">₦300,000</b></p>
+          <label class="sbx-field" for="loanAmt">
+            <span>How much do you need? (₦)</span>
+            <input type="number" id="loanAmt" min="2000" step="1000" value="50000" inputmode="numeric" />
+          </label>
+          <button class="btn btn--primary" id="approveBtn" type="button">Check eligibility &amp; approve</button>
+          <div class="sbx-terms" id="loanTerms" hidden></div>
+        </article>
+
+        <!-- Step 2 -->
+        <article class="sbx-step" id="step2">
+          <div class="sbx-step__head"><span class="sbx-step__n" aria-hidden="true">2</span><h2>Disburse to wallet</h2></div>
+          <p>Approved funds are credited to your AzaPay wallet.
+            <span class="sbx-muted">(Simulated — a live build would use Stripe Connect transfers/payouts.)</span></p>
+          <button class="btn btn--primary" id="disburseBtn" type="button" disabled>Disburse ₦0</button>
+        </article>
+
+        <!-- Step 3 -->
+        <article class="sbx-step" id="step3">
+          <div class="sbx-step__head"><span class="sbx-step__n" aria-hidden="true">3</span><h2>Add money to wallet</h2></div>
+          <p>Top up with a card — this is a real <strong>Stripe test-mode</strong> Checkout.</p>
+          <div class="amount-chips" id="topupChips" role="group" aria-label="Top-up amount">
+            <button class="chip is-selected" data-amt="5000" type="button" aria-pressed="true">₦5,000</button>
+            <button class="chip" data-amt="20000" type="button" aria-pressed="false">₦20,000</button>
+            <button class="chip" data-amt="50000" type="button" aria-pressed="false">₦50,000</button>
+          </div>
+          <button class="btn btn--gold" id="topupBtn" type="button">Add money via Stripe (test)</button>
+          <p class="sbx-muted" style="margin-top:10px">Redirects to Stripe's secure test checkout, then back here.</p>
+        </article>
+
+        <details class="sbx-setup" id="setup">
+          <summary>Enable live test payments (Stripe setup)</summary>
+          <ol>
+            <li>Create a free account at <a href="https://dashboard.stripe.com/register" target="_blank" rel="noopener">dashboard.stripe.com</a> — test mode works immediately, no activation needed.</li>
+            <li>With <strong>Test mode</strong> on, copy your secret key (<code>sk_test_…</code>) from Developers → API keys.</li>
+            <li>Add it to this Vercel project and redeploy:
+              <pre><code>vercel env add STRIPE_SECRET_KEY production
+vercel --prod</code></pre>
+              (paste the <code>sk_test_…</code> key when prompted).
+            </li>
+            <li>Reload this page and run step 3 with test card <code>4242 4242 4242 4242</code>.</li>
+          </ol>
+          <noscript>This sandbox needs JavaScript enabled.</noscript>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__brand">
+        <a href="index.html" class="brand brand--light" aria-label="AzaPay home">
+          <span class="brand__mark" aria-hidden="true">
+            <svg viewBox="0 0 100 100" width="32" height="32">
+              <rect width="100" height="100" rx="24" fill="#F4B740"/>
+              <path d="M30 70 L50 28 L70 70 M38 56 L62 56" stroke="#07502F" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </svg>
+          </span>
+          <span class="brand__name">AzaPay</span>
+        </a>
+        <p class="footer__tag">Banking the Unbanked.</p>
+        <p class="footer__loc"><span aria-hidden="true">🇳🇬</span> Built for Nigeria · expanding across Africa</p>
+      </div>
+
+      <nav class="footer__col" aria-label="Product">
+        <h2>Product</h2>
+        <a href="product.html">Wallet &amp; savings</a>
+        <a href="trust-score.html">Trust Score</a>
+        <a href="credit.html">Credit ladder</a>
+        <a href="how-it-works.html">How it works</a>
+      </nav>
+
+      <nav class="footer__col" aria-label="Company">
+        <h2>Company</h2>
+        <a href="about.html">About</a>
+        <a href="about.html#compliance">Compliance</a>
+        <a href="index.html#problem">The problem</a>
+        <a href="waitlist.html">Join waitlist</a>
+      </nav>
+
+      <nav class="footer__col" aria-label="Legal">
+        <h2>Legal</h2>
+        <a href="about.html#compliance">Privacy &amp; NDPA</a>
+        <a href="credit.html#principles">Responsible lending</a>
+        <a href="waitlist.html">Terms (coming soon)</a>
+      </nav>
+    </div>
+
+    <div class="container footer__bottom">
+      <p class="footer__disclaimer">
+        AzaPay is a product concept in development. Banking, payment, and lending services
+        are intended to be provided through licensed partners and are subject to CBN, FCCPC,
+        and NDPA regulation. Figures and product terms shown are illustrative and should be
+        validated with local counsel and a licensed banking partner before launch.
+      </p>
+      <p class="footer__copy">© <span id="year">2026</span> AzaPay. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <button class="to-top" id="toTop" aria-label="Back to top" hidden>↑</button>
+  <script src="script.js" defer></script>
+  <script src="sandbox.js" defer></script>
+</body>
+</html>

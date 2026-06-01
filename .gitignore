@@ -1,6 +1,10 @@
 # Vercel
 .vercel
 
+# Secrets / local env — never commit Stripe keys
+.env
+.env.*
+
 # Dependencies (none currently, but just in case)
 node_modules
 
