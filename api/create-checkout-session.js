@@ -19,7 +19,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'method_not_allowed' });
   }
 
-  const key = process.env.STRIPE_SECRET_KEY;
+  const key = (process.env.STRIPE_SECRET_KEY || '').trim();
   if (!key || !key.startsWith('sk_')) {
     return res.status(503).json({
       error: 'stripe_not_configured',
