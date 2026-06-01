@@ -63,12 +63,19 @@ The site passed a multi-dimension review; a few items are deliberately left as l
 
 ## Payments sandbox (Stripe test mode)
 
-The **Sandbox** page (`sandbox.html`) simulates the AzaPay journey:
+The **Sandbox** page (`sandbox.html`) simulates **AzaPay Bridge** — cash-flow bridge financing:
 
-1. **Get approved** — a Trust Score slider drives the loan limit (pure front-end simulation).
-2. **Disburse to wallet** — credits the simulated wallet balance (a live build would use
-   Stripe Connect transfers/payouts).
+1. **Get a Bridge advance** — pick a trade, enter monthly cash flow, and the limit is the lesser
+   of a cash-flow cap (50%) and a Trust-Score tier. Pricing is shown as an APR, with a **2% discount
+   for AzaPay-account holders** (the "Save 2% APR" toggle). Pure front-end simulation.
+2. **Funded same day** — credits the simulated wallet balance (a live build would use Stripe
+   Connect transfers/payouts).
 3. **Add money to wallet** — a **real Stripe test-mode Checkout** via the serverless functions.
+
+Bridge features mirror the AzaPay Bridge concept (approval in minutes, no payslips/tax returns,
+same-day funding, save 2% APR). US-specific claims from that concept (FDIC, SOC 2, W-2) are
+deliberately omitted/adapted to AzaPay's Nigeria compliance framing (NDPA), and no fabricated
+traction/testimonials are shown.
 
 Steps 1 & 2 work with no configuration. Step 3 needs a Stripe **test** secret key.
 

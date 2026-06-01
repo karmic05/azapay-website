@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#07502F" />
-  <title>Payments Sandbox — Stripe Test-Mode Simulation | AzaPay</title>
-  <meta name="description" content="An interactive, test-mode simulation of the AzaPay journey — loan approval, disbursement, and adding money to your wallet via a real Stripe test-mode Checkout. No real money moves." />
+  <title>Bridge Sandbox — Stripe Test-Mode Simulation | AzaPay</title>
+  <meta name="description" content="An interactive, test-mode simulation of AzaPay Bridge — cash-flow-based loan approval in minutes, same-day disbursement to your wallet, and adding money via a real Stripe test-mode Checkout. No real money moves." />
   <meta name="author" content="AzaPay" />
   <meta name="robots" content="noindex" />
 
@@ -13,8 +13,8 @@
 
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://azapay-website.vercel.app/sandbox.html" />
-  <meta property="og:title" content="AzaPay Payments Sandbox" />
-  <meta property="og:description" content="A test-mode simulation of loan approval, disbursement, and wallet top-up, powered by Stripe test mode." />
+  <meta property="og:title" content="AzaPay Bridge Sandbox" />
+  <meta property="og:description" content="A test-mode simulation of cash-flow Bridge financing — approval in minutes, same-day funding, and a Stripe test-mode top-up." />
   <meta property="og:site_name" content="AzaPay" />
   <meta property="og:locale" content="en_NG" />
   <meta property="og:image" content="https://azapay-website.vercel.app/assets/og-cover.png" />
@@ -23,8 +23,8 @@
   <meta property="og:image:alt" content="AzaPay — Banking the Unbanked" />
 
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="AzaPay Payments Sandbox" />
-  <meta name="twitter:description" content="A test-mode simulation of loan approval, disbursement, and wallet top-up." />
+  <meta name="twitter:title" content="AzaPay Bridge Sandbox" />
+  <meta name="twitter:description" content="A test-mode simulation of cash-flow Bridge financing — approval in minutes, same-day funding." />
   <meta name="twitter:image" content="https://azapay-website.vercel.app/assets/og-cover.png" />
   <meta name="twitter:image:alt" content="AzaPay — Banking the Unbanked" />
 
@@ -68,11 +68,11 @@
     <section class="page-hero">
       <div class="container">
         <span class="eyebrow reveal">Interactive demo</span>
-        <h1 class="reveal">Payments Sandbox</h1>
+        <h1 class="reveal">AzaPay Bridge sandbox</h1>
         <p class="page-hero__sub reveal">
-          Walk the AzaPay journey in test mode — get a loan approved, disburse it to your
-          wallet, then add money with a real <strong>Stripe test-mode</strong> checkout.
-          Nothing here moves real money.
+          Bridge financing built for the everyday hustle — cash-flow approval in minutes,
+          same-day funding to your wallet, then top up with a real <strong>Stripe test-mode</strong>
+          checkout. Nothing here moves real money.
         </p>
       </div>
     </section>
@@ -83,6 +83,14 @@
           <span aria-hidden="true">🧪</span> <strong>Test mode.</strong> No real money moves. For the card step, use Stripe's
           test card <code>4242 4242 4242 4242</code>, any future expiry, and any CVC.
         </p>
+
+        <!-- Bridge feature highlights -->
+        <div class="bridge-feats">
+          <div class="bfeat"><span class="bfeat__i" aria-hidden="true">⚡</span><b>Approved in minutes</b><p>Cash-flow based — an instant decision.</p></div>
+          <div class="bfeat"><span class="bfeat__i" aria-hidden="true">📄</span><b>No payslips or tax returns</b><p>Just the work you already do.</p></div>
+          <div class="bfeat"><span class="bfeat__i" aria-hidden="true">🏦</span><b>Funded same day</b><p>Straight into your AzaPay wallet.</p></div>
+          <div class="bfeat"><span class="bfeat__i" aria-hidden="true">💸</span><b>Save 2% APR</b><p>When you get paid into AzaPay.</p></div>
+        </div>
 
         <div class="wallet-card">
           <div>
@@ -98,32 +106,58 @@
 
         <div id="alert" class="sbx-alert info" role="status" aria-live="polite" hidden></div>
 
-        <!-- Step 1 -->
+        <!-- Step 1: Bridge advance -->
         <article class="sbx-step" id="step1">
-          <div class="sbx-step__head"><span class="sbx-step__n" aria-hidden="true">1</span><h2>Get approved</h2></div>
-          <p>Your Trust Score sets your limit — drag it to see how behaviour changes credit access.</p>
+          <div class="sbx-step__head"><span class="sbx-step__n" aria-hidden="true">1</span><h2>Get a Bridge advance</h2></div>
+          <p>Cash-flow based approval in minutes — no payslips or tax returns, just the work you already do.</p>
+
+          <div class="sbx-field">
+            <span id="tradeLabel">What's your trade?</span>
+            <div class="amount-chips" id="tradeChips" role="group" aria-labelledby="tradeLabel">
+              <button class="chip is-selected" data-trade="electrician" type="button" aria-pressed="true">Electrician</button>
+              <button class="chip" data-trade="plumber" type="button" aria-pressed="false">Plumber</button>
+              <button class="chip" data-trade="mechanic" type="button" aria-pressed="false">Mechanic</button>
+              <button class="chip" data-trade="carpenter" type="button" aria-pressed="false">Carpenter</button>
+              <button class="chip" data-trade="trader" type="button" aria-pressed="false">Trader</button>
+              <button class="chip" data-trade="other" type="button" aria-pressed="false">Other</button>
+            </div>
+          </div>
+
+          <label class="sbx-field" for="cashflow">
+            <span>Average monthly cash flow (₦)</span>
+            <input type="number" id="cashflow" min="0" step="5000" value="150000" inputmode="numeric" />
+          </label>
+
           <label class="sbx-field" for="scoreRange">
             <span>Trust Score: <b id="scoreOut">724</b></span>
             <input type="range" id="scoreRange" min="300" max="850" step="1" value="724" />
           </label>
-          <p class="sbx-elig">You qualify for up to <b id="maxLimit">₦300,000</b></p>
+
+          <p class="sbx-elig" aria-live="polite" aria-atomic="true">You qualify for up to <b id="maxLimit">₦75,000</b> &middot; APR from <b id="aprPreview">22%</b></p>
+
           <label class="sbx-field" for="loanAmt">
             <span>How much do you need? (₦)</span>
             <input type="number" id="loanAmt" min="2000" step="1000" value="50000" inputmode="numeric" />
           </label>
+
+          <label class="aza-toggle" for="azaToggle">
+            <input type="checkbox" id="azaToggle" checked />
+            <span>I get paid into my AzaPay wallet — <b>save 2% APR</b></span>
+          </label>
+
           <button class="btn btn--primary" id="approveBtn" type="button">Check eligibility &amp; approve</button>
           <div class="sbx-terms" id="loanTerms" hidden></div>
         </article>
 
-        <!-- Step 2 -->
+        <!-- Step 2: Same-day funding -->
         <article class="sbx-step" id="step2">
-          <div class="sbx-step__head"><span class="sbx-step__n" aria-hidden="true">2</span><h2>Disburse to wallet</h2></div>
-          <p>Approved funds are credited to your AzaPay wallet.
+          <div class="sbx-step__head"><span class="sbx-step__n" aria-hidden="true">2</span><h2>Funded same day</h2></div>
+          <p>Approved funds are deposited into your AzaPay wallet — same day, often in minutes.
             <span class="sbx-muted">(Simulated — a live build would use Stripe Connect transfers/payouts.)</span></p>
           <button class="btn btn--primary" id="disburseBtn" type="button" disabled>Disburse ₦0</button>
         </article>
 
-        <!-- Step 3 -->
+        <!-- Step 3: Add money (Stripe) -->
         <article class="sbx-step" id="step3">
           <div class="sbx-step__head"><span class="sbx-step__n" aria-hidden="true">3</span><h2>Add money to wallet</h2></div>
           <p>Top up with a card — this is a real <strong>Stripe test-mode</strong> Checkout.</p>
@@ -135,6 +169,8 @@
           <button class="btn btn--gold" id="topupBtn" type="button">Add money via Stripe (test)</button>
           <p class="sbx-muted" style="margin-top:10px">Redirects to Stripe's secure test checkout, then back here.</p>
         </article>
+
+        <p class="sbx-security"><span aria-hidden="true">🔒</span> Bank-level security · 256-bit encryption · biometric login · NDPA 2023 compliant</p>
 
         <details class="sbx-setup" id="setup">
           <summary>Enable live test payments (Stripe setup)</summary>

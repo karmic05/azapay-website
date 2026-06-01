@@ -25,7 +25,7 @@
   --ink-soft: #3c5249;
   --ink-mute: #566b61;
   --line: #e4ece7;
-  --line-strong: #9fb3a8; /* ≥3:1 on white — for interactive control borders */
+  --line-strong: #6f857a; /* 3.95:1 on white — for interactive control borders */
   --white: #ffffff;
   --paper: #f6faf7;
 
@@ -49,7 +49,7 @@
 /* ---------- Reset ---------- */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; scroll-padding-top: var(--nav-h); }
-#main:focus { outline: none; }
+#main:focus { outline: none; box-shadow: none; }
 body {
   font-family: var(--font-body);
   color: var(--ink);
@@ -91,7 +91,14 @@ h3 { font-size: 1.25rem; }
 }
 .skip-link:focus { top: 0; }
 
-:focus-visible { outline: 3px solid var(--gold-500); outline-offset: 3px; border-radius: 6px; }
+/* Dual-tone ring: the white layer shows on dark backgrounds, the dark-green layer
+   on light ones, so focus is always visible (WCAG 1.4.11). The transparent outline
+   keeps a visible focus in Windows forced-colors mode. */
+:focus-visible {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--white), 0 0 0 5px var(--green-800);
+}
 
 /* ---------- Buttons ---------- */
 .btn {
@@ -511,6 +518,22 @@ h3 { font-size: 1.25rem; }
 .sbx-setup li { list-style: decimal; }
 .sbx-setup pre { background: var(--green-900); color: var(--green-100); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .82rem; margin: 8px 0; }
 .sbx-setup pre code { background: none; padding: 0; color: inherit; }
+
+/* Bridge feature highlights */
+.bridge-feats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 22px; }
+@media (max-width: 720px) { .bridge-feats { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 380px) { .bridge-feats { grid-template-columns: 1fr; } }
+.bfeat { background: #fff; border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 16px 14px; }
+.bfeat__i { font-size: 1.3rem; display: block; margin-bottom: 6px; }
+.bfeat b { font-family: var(--font-head); display: block; font-size: .92rem; margin-bottom: 3px; }
+.bfeat p { color: var(--ink-soft); font-size: .8rem; }
+
+/* "Save 2% APR" AzaPay-account toggle */
+.aza-toggle { display: flex; align-items: center; gap: 10px; background: var(--green-050); border: 1px solid var(--green-100); border-radius: 12px; padding: 12px 14px; margin-bottom: 14px; cursor: pointer; font-size: .92rem; }
+.aza-toggle input { width: 18px; height: 18px; accent-color: var(--green-600); flex: none; }
+.aza-toggle b { color: var(--green-700); }
+
+.sbx-security { font-size: .82rem; color: var(--ink-mute); text-align: center; margin: 4px 0 22px; }
 
 @media (max-width: 560px) {
   .wallet-card__score { margin-left: 0; text-align: left; }
