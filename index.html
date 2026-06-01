@@ -6,12 +6,8 @@
   <meta name="theme-color" content="#07502F" />
   <title>AzaPay — Banking the Unbanked | AI Credit for Nigeria</title>
   <meta name="description" content="AzaPay is a digital banking and AI-powered credit platform for unbanked and underbanked Nigerians. Secure payments, savings, and fair credit built from a Financial Trust Score — your real behaviour, not your banking history." />
-  <meta name="keywords" content="AzaPay, digital banking Nigeria, AI credit, financial inclusion, unbanked, trust score, BVN, NIN, fintech Nigeria, alternative credit scoring" />
   <meta name="author" content="AzaPay" />
 
-  <!-- Canonical / production origin (currently the Vercel URL).
-       When you add a custom domain, replace azapay-website.vercel.app everywhere below
-       (canonical, og:url, og:image, twitter:image, and the JSON-LD URLs) with your domain. -->
   <link rel="canonical" href="https://azapay-website.vercel.app/" />
 
   <!-- Open Graph -->
@@ -72,10 +68,9 @@
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
 
-  <!-- ============ NAV ============ -->
   <header class="nav" id="nav">
     <div class="container nav__inner">
-      <a href="#top" class="brand" aria-label="AzaPay home">
+      <a href="index.html" class="brand" aria-label="AzaPay home">
         <span class="brand__mark" aria-hidden="true">
           <svg viewBox="0 0 100 100" width="34" height="34">
             <rect width="100" height="100" rx="24" fill="#07502F"/>
@@ -84,14 +79,13 @@
         </span>
         <span class="brand__name">AzaPay</span>
       </a>
-
       <nav class="nav__links" id="navLinks" aria-label="Primary">
-        <a href="#features">Product</a>
-        <a href="#trust">Trust Score</a>
-        <a href="#loans">Credit</a>
-        <a href="#how">How it works</a>
-        <a href="#about">About</a>
-        <a href="#waitlist" class="btn btn--primary btn--sm nav__cta">Join the waitlist</a>
+        <a href="product.html">Product</a>
+        <a href="trust-score.html">Trust Score</a>
+        <a href="credit.html">Credit</a>
+        <a href="how-it-works.html">How it works</a>
+        <a href="about.html">About</a>
+        <a href="waitlist.html" class="btn btn--primary btn--sm nav__cta">Join the waitlist</a>
       </nav>
 
       <button class="nav__toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Open menu">
@@ -101,14 +95,13 @@
   </header>
 
   <main id="main" tabindex="-1">
-    <span id="top"></span>
 
     <!-- ============ HERO ============ -->
     <section class="hero">
       <div class="hero__bg" aria-hidden="true"></div>
       <div class="container hero__inner">
         <div class="hero__copy">
-          <span class="eyebrow reveal">⚡ Banking the Unbanked</span>
+          <span class="eyebrow reveal"><span aria-hidden="true">⚡</span> Banking the Unbanked</span>
           <h1 class="reveal">Turn everyday money moves into <span class="grad-text">real credit.</span></h1>
           <p class="hero__lead reveal">
             AzaPay gives unbanked and underbanked Nigerians secure payments, savings, and
@@ -116,8 +109,8 @@
             not your banking history.
           </p>
           <div class="hero__actions reveal">
-            <a href="#waitlist" class="btn btn--primary btn--lg">Join the waitlist</a>
-            <a href="#how" class="btn btn--ghost btn--lg">See how it works</a>
+            <a href="waitlist.html" class="btn btn--primary btn--lg">Join the waitlist</a>
+            <a href="how-it-works.html" class="btn btn--ghost btn--lg">See how it works</a>
           </div>
           <ul class="hero__trust reveal" aria-label="Trust signals">
             <li><span class="dot" aria-hidden="true"></span> BVN &amp; NIN verified</li>
@@ -254,325 +247,13 @@
       </div>
     </section>
 
-    <!-- ============ FEATURES ============ -->
-    <section class="section features" id="features">
-      <div class="container">
-        <div class="section__head reveal">
-          <span class="kicker">What you get</span>
-          <h2>One app. The full financial journey.</h2>
-          <p class="section__sub">
-            AzaPay combines what most providers keep separate — day-to-day payments,
-            an identity you can build, and credit that was previously out of reach.
-          </p>
-        </div>
-
-        <div class="features__grid">
-          <article class="fcard reveal">
-            <div class="fcard__icon">
-              <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M2 10h20M6 15h4"/></svg>
-            </div>
-            <h3>Digital Wallet</h3>
-            <p>A secure mobile wallet to send, receive, and store money. It's your everyday entry point — and the source of the data that powers everything else.</p>
-          </article>
-
-          <article class="fcard reveal">
-            <div class="fcard__icon">
-              <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h15a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V7zM3 7l2-3h11l2 3M17 13h.01"/></svg>
-            </div>
-            <h3>Savings Tools</h3>
-            <p>Set money aside automatically and build wealth over time. Consistent saving also feeds positively into your Trust Score.</p>
-          </article>
-
-          <article class="fcard reveal fcard--feature">
-            <span class="fcard__badge">Core differentiator</span>
-            <div class="fcard__icon">
-              <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 1 3 3 3 3 0 0 1 3 3 3 3 0 0 1 1 5.8A3 3 0 0 1 16 22a3 3 0 0 1-4 0 3 3 0 0 1-4 0 3 3 0 0 1-3-5.2A3 3 0 0 1 6 8a3 3 0 0 1 3-3 3 3 0 0 1 3-3zM12 8v8M9 12h6"/></svg>
-            </div>
-            <h3>AI Underwriting Engine</h3>
-            <p>Instead of relying on credit bureaus, the engine scores five alternative signals — transaction activity, savings behaviour, remittance flows, bill payments, and income patterns — so we can lend to people banks reject, while keeping risk under control.</p>
-          </article>
-
-          <article class="fcard reveal">
-            <div class="fcard__icon">
-              <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-5 4 3 7-8M14 7h5v5"/></svg>
-            </div>
-            <h3>Financial Trust Score</h3>
-            <p>A dynamic score built from real behaviour rather than banking status. It updates as you transact, save, and pay — a credit profile you've never had before.</p>
-          </article>
-
-          <article class="fcard reveal">
-            <div class="fcard__icon">
-              <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6l8-4z"/><path d="M9 12l2 2 4-4"/></svg>
-            </div>
-            <h3>Responsible Lending</h3>
-            <p>Affordable credit unlocked by your score — with terms driven by demonstrated behaviour, not collateral or formal employment. Transparent pricing, fair defaults.</p>
-          </article>
-
-          <article class="fcard reveal">
-            <div class="fcard__icon">
-              <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg>
-            </div>
-            <h3>Personalized Insights</h3>
-            <p>Tailored guidance that helps you understand your money, improve your habits, and strengthen your Trust Score — one clear action at a time.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ TRUST SCORE ============ -->
-    <section class="section trust" id="trust">
-      <div class="container">
-        <div class="section__head reveal">
-          <span class="kicker">The core IP</span>
-          <h2>Your Financial Trust Score</h2>
-          <p class="section__sub">
-            A 300–850 score that turns your real activity into proof of creditworthiness.
-            It recomputes continuously — and we show you exactly what's moving it.
-          </p>
-        </div>
-
-        <div class="trust__layout">
-          <!-- Gauge -->
-          <div class="trust__gauge reveal">
-            <svg viewBox="0 0 240 150" class="gauge" role="img" aria-label="Trust Score gauge showing 724 out of 850, rated Good">
-              <path d="M20 140 A100 100 0 0 1 220 140" fill="none" stroke="#e7efe9" stroke-width="20" stroke-linecap="round"/>
-              <path id="gaugeArc" d="M20 140 A100 100 0 0 1 220 140" fill="none" stroke="url(#gaugeGrad)" stroke-width="20" stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="314"/>
-              <defs>
-                <linearGradient id="gaugeGrad" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0" stop-color="#C0392B"/>
-                  <stop offset="0.5" stop-color="#0E7C4A"/>
-                  <stop offset="1" stop-color="#F4B740"/>
-                </linearGradient>
-              </defs>
-            </svg>
-            <div class="gauge__center">
-              <p class="gauge__num"><span class="count" data-target="724" data-duration="1600">724</span></p>
-              <p class="gauge__rating">Good · trending up</p>
-              <p class="gauge__scale">300 — 850</p>
-            </div>
-          </div>
-
-          <!-- Signal weights -->
-          <div class="trust__signals reveal">
-            <h3 class="trust__signals-title">What the score is built from</h3>
-            <ul class="weights" aria-label="Trust Score signal weighting">
-              <li class="weight">
-                <div class="weight__top"><span>Repayment history</span><b>35%</b></div>
-                <div class="bar"><i style="--w:35%"></i></div>
-                <small>On-time repayment of any prior AzaPay credit.</small>
-              </li>
-              <li class="weight">
-                <div class="weight__top"><span>Cash-flow stability</span><b>20%</b></div>
-                <div class="bar"><i style="--w:20%"></i></div>
-                <small>Consistent inflows and a positive net balance over time.</small>
-              </li>
-              <li class="weight">
-                <div class="weight__top"><span>Savings behaviour</span><b>15%</b></div>
-                <div class="bar"><i style="--w:15%"></i></div>
-                <small>Regular contributions and untouched savings balances.</small>
-              </li>
-              <li class="weight">
-                <div class="weight__top"><span>Bill &amp; obligation reliability</span><b>15%</b></div>
-                <div class="bar"><i style="--w:15%"></i></div>
-                <small>On-time airtime, utilities, and rent payments.</small>
-              </li>
-              <li class="weight">
-                <div class="weight__top"><span>Transaction depth &amp; tenure</span><b>10%</b></div>
-                <div class="bar"><i style="--w:10%"></i></div>
-                <small>Volume, variety, and length of platform activity.</small>
-              </li>
-              <li class="weight">
-                <div class="weight__top"><span>Verification level</span><b>5%</b></div>
-                <div class="bar"><i style="--w:5%"></i></div>
-                <small>KYC tier completeness and identity confidence.</small>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- How scores move -->
-        <div class="trust__moves">
-          <article class="move reveal">
-            <span class="move__icon up" aria-hidden="true">▲</span>
-            <h3>Positive events lift it</h3>
-            <p>On-time repayments, steady savings, and consistent inflows raise your score gradually — unlocking higher limits and cheaper pricing.</p>
-          </article>
-          <article class="move reveal">
-            <span class="move__icon down" aria-hidden="true">▼</span>
-            <h3>Setbacks lower it fairly</h3>
-            <p>Missed repayments or erratic activity pull it down, with the steepest penalty on missed credit — but never with harassment.</p>
-          </article>
-          <article class="move reveal">
-            <span class="move__icon time" aria-hidden="true">⟲</span>
-            <h3>Recent behaviour counts most</h3>
-            <p>Recency is weighted heavily, so a single setback doesn't define you. Get back on track and your score recovers.</p>
-          </article>
-          <article class="move reveal">
-            <span class="move__icon eye" aria-hidden="true">👁</span>
-            <h3>Always explainable</h3>
-            <p>You see the top factors moving your score and concrete actions to improve it — good UX and aligned with fair-lending expectations.</p>
-          </article>
-        </div>
-
-        <p class="trust__note reveal">
-          We start with a transparent rules-plus-scorecard model for the first cohorts,
-          then layer machine learning once there's enough labelled repayment data to train
-          and validate it responsibly.
-        </p>
-      </div>
-    </section>
-
-    <!-- ============ LOANS ============ -->
-    <section class="section loans" id="loans">
-      <div class="container">
-        <div class="section__head reveal">
-          <span class="kicker">Responsible credit</span>
-          <h2>A credit ladder you graduate up</h2>
-          <p class="section__sub">
-            Start small while there's little history to learn from, then unlock larger
-            amounts and better pricing as your Trust Score matures. Limits rise only after
-            you prove on-time behaviour.
-          </p>
-        </div>
-
-        <div class="loans__grid">
-          <article class="lcard reveal">
-            <div class="lcard__head"><h3>Nano advance</h3><span class="lcard__tag">Thin file</span></div>
-            <p class="lcard__amt">₦2,000 – ₦20,000</p>
-            <ul class="lcard__meta">
-              <li><span>Tenor</span><b>7–30 days</b></li>
-              <li><span>Pricing</span><b>Flat 5–10% fee</b></li>
-              <li><span>Repay</span><b>Single auto-debit</b></li>
-            </ul>
-            <p class="lcard__for">New users building their first track record.</p>
-          </article>
-
-          <article class="lcard reveal lcard--featured">
-            <span class="lcard__ribbon">Most popular</span>
-            <div class="lcard__head"><h3>Micro loan</h3><span class="lcard__tag">Established</span></div>
-            <p class="lcard__amt">₦20,000 – ₦250,000</p>
-            <ul class="lcard__meta">
-              <li><span>Tenor</span><b>1–6 months</b></li>
-              <li><span>Pricing</span><b>4–8% / mo reducing</b></li>
-              <li><span>Repay</span><b>Weekly / monthly</b></li>
-            </ul>
-            <p class="lcard__for">Users with a proven repayment history.</p>
-          </article>
-
-          <article class="lcard reveal">
-            <div class="lcard__head"><h3>Pay-in-4 (BNPL)</h3><span class="lcard__tag">Merchants</span></div>
-            <p class="lcard__amt">Up to ₦100,000</p>
-            <ul class="lcard__meta">
-              <li><span>Tenor</span><b>4 fortnightly</b></li>
-              <li><span>Pricing</span><b>Merchant-funded</b></li>
-              <li><span>Repay</span><b>Auto-split on wallet</b></li>
-            </ul>
-            <p class="lcard__for">Spreading bill &amp; merchant payments.</p>
-          </article>
-
-          <article class="lcard reveal">
-            <div class="lcard__head"><h3>SME working capital</h3><span class="lcard__tag">Business</span></div>
-            <p class="lcard__amt">₦250,000 – ₦2,000,000</p>
-            <ul class="lcard__meta">
-              <li><span>Tenor</span><b>3–12 months</b></li>
-              <li><span>Pricing</span><b>Risk-priced 3–6% / mo</b></li>
-              <li><span>Repay</span><b>Cash-flow installments</b></li>
-            </ul>
-            <p class="lcard__for">Small business owners scaling up.</p>
-          </article>
-
-          <article class="lcard reveal">
-            <div class="lcard__head"><h3>Income advance</h3><span class="lcard__tag">Regular inflow</span></div>
-            <p class="lcard__amt">Up to 50% of monthly income</p>
-            <ul class="lcard__meta">
-              <li><span>Tenor</span><b>Until next inflow</b></li>
-              <li><span>Pricing</span><b>Flat fee</b></li>
-              <li><span>Repay</span><b>Auto-deduct on inflow</b></li>
-            </ul>
-            <p class="lcard__for">Earners with detectable regular inflows.</p>
-          </article>
-        </div>
-
-        <div class="principles">
-          <h3 class="principles__title reveal">How we keep credit fair</h3>
-          <div class="principles__grid">
-            <div class="principle reveal"><b>Graduated limits</b><p>Limits rise only after on-time repayment, so risk grows with proven behaviour.</p></div>
-            <div class="principle reveal"><b>Auto-debit first</b><p>Repayment pulls from your wallet on the due date, with reminders 48 hours ahead.</p></div>
-            <div class="principle reveal"><b>Transparent pricing</b><p>Every fee, interest charge, and penalty is shown as one total cost of credit before you accept.</p></div>
-            <div class="principle reveal"><b>Fair default handling</b><p>No harassment, no contact-list shaming — just structured restructuring offers and licensed bureau reporting.</p></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ HOW IT WORKS / ONBOARDING ============ -->
-    <section class="section how" id="how">
-      <div class="container">
-        <div class="section__head reveal">
-          <span class="kicker">Getting started</span>
-          <h2>Verified in minutes, not weeks</h2>
-          <p class="section__sub">
-            Nigeria's tiered KYC — anchored on BVN and NIN — is built for exactly the people
-            banks leave behind. Open a wallet instantly, then unlock more as you verify.
-          </p>
-        </div>
-
-        <div class="how__steps">
-          <ol class="steps">
-            <li class="step reveal"><span class="step__n">1</span><div><h3>Sign up with your phone</h3><p>Verified by a one-time code (OTP). No paperwork.</p></div></li>
-            <li class="step reveal"><span class="step__n">2</span><div><h3>Add your NIN or BVN</h3><p>We retrieve your identity electronically from NIMC or the NIBSS BVN database — done in minutes.</p></div></li>
-            <li class="step reveal"><span class="step__n">3</span><div><h3>Quick liveness check</h3><p>A selfie matched against your verified record confirms it's really you.</p></div></li>
-            <li class="step reveal"><span class="step__n">4</span><div><h3>Wallet opens instantly</h3><p>Start transacting on a Tier 1 wallet while higher tiers verify in the background.</p></div></li>
-            <li class="step reveal"><span class="step__n">5</span><div><h3>Unlock more</h3><p>Add a second identifier and address to reach Tier 2 &amp; 3 — bigger payments and credit.</p></div></li>
-          </ol>
-
-          <div class="tiers reveal">
-            <h3 class="tiers__title">Three tiers of access</h3>
-            <div class="tier">
-              <div class="tier__badge">Tier 1</div>
-              <div><b>BVN or NIN</b><p>Instant sign-up with low caps — get in fast.</p></div>
-            </div>
-            <div class="tier">
-              <div class="tier__badge tier__badge--2">Tier 2</div>
-              <div><b>BVN and NIN</b><p>Mid limits for regular daily use.</p></div>
-            </div>
-            <div class="tier">
-              <div class="tier__badge tier__badge--3">Tier 3</div>
-              <div><b>BVN, NIN + address</b><p>High limits for SME and credit users.</p></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Inclusion touches -->
-        <div class="inclusion reveal">
-          <span class="inclusion__icon" aria-hidden="true">🤝</span>
-          <p><b>Built for everyone.</b> Full onboarding over <b>USSD</b> for feature phones, assisted sign-up through our <b>agent network</b>, and remote BVN enrolment for diaspora users sending money home.</p>
-        </div>
-
-        <!-- Rails -->
-        <div class="rails">
-          <p class="rails__label reveal">Money moves on the rails Nigeria already trusts</p>
-          <div class="rails__row">
-            <span class="rail reveal">NIBSS Instant Payments (NIP)</span>
-            <span class="rail reveal">USSD</span>
-            <span class="rail reveal">NQR codes</span>
-            <span class="rail reveal">AfriGo card</span>
-            <span class="rail reveal">Agent banking</span>
-          </div>
-          <p class="rails__sub reveal">
-            We sit on top of these rails through a licensed deposit-taking partner, so your
-            balance stays in regulated, insured accounts — not on AzaPay's balance sheet.
-          </p>
-        </div>
-      </div>
-    </section>
-
     <!-- ============ VALUE PROP ============ -->
     <section class="section value">
       <div class="container">
         <div class="section__head reveal">
           <span class="kicker">Why it works</span>
           <h2>Three things, finally in one place</h2>
+          <p class="section__sub">AzaPay combines what most providers keep separate — day-to-day payments, an identity you can build, and credit that was previously out of reach.</p>
         </div>
         <div class="value__grid">
           <article class="vcard reveal">
@@ -594,100 +275,62 @@
       </div>
     </section>
 
-    <!-- ============ COMPLIANCE / TRUST ============ -->
-    <section class="section compliance" id="compliance">
+    <!-- ============ EXPLORE ============ -->
+    <section class="section explore problem">
       <div class="container">
         <div class="section__head reveal">
-          <span class="kicker">Built on trust</span>
-          <h2>Compliant by design, private by default</h2>
-          <p class="section__sub">
-            Nigeria has tightened fintech and lending rules — so for us, compliance is
-            foundational, not optional. And we built privacy in where earlier lenders failed.
-          </p>
+          <span class="kicker">Explore the platform</span>
+          <h2>Everything AzaPay does</h2>
+          <p class="section__sub">Dive into each part of the product.</p>
         </div>
-
-        <div class="compliance__grid">
-          <article class="ccard reveal">
-            <h3>CBN-aligned</h3>
-            <p>We operate on top of a licensed bank or Mobile Money Operator and a payments aggregator for NIP access — the capital-light, regulated route.</p>
-          </article>
-          <article class="ccard reveal">
-            <h3>FCCPC digital-lending rules</h3>
-            <p>Designed to register under the DEON Consumer Lending Regulations 2025, with plain-language pricing and a fast, fair complaints process.</p>
-          </article>
-          <article class="ccard reveal">
-            <h3>NDPA 2023</h3>
-            <p>Built around the Nigeria Data Protection Act — with a Data Protection Impact Assessment and consent-based data sharing under CBN open banking.</p>
-          </article>
-          <article class="ccard reveal ccard--privacy">
-            <span class="ccard__lock" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
-            </span>
-            <h3>We never touch your contacts</h3>
-            <p>No access to your contacts, call logs, or photo gallery — ever. That rules out the contact-shaming tactics that got earlier loan apps sanctioned.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ ABOUT / VISION ============ -->
-    <section class="section about" id="about">
-      <div class="container">
-        <div class="about__grid">
-          <div class="about__lead reveal">
-            <span class="kicker kicker--light">Our purpose</span>
-            <h2>Finance decided by behaviour, not banking status.</h2>
-            <p>
-              We're building toward a future where access to finance is determined by what
-              you actually do with money — not whether a bank ever recognised you.
-            </p>
-          </div>
-          <div class="about__cards">
-            <article class="acard reveal">
-              <h3>Vision</h3>
-              <p>To become Africa's leading financial identity platform — enabling every individual to access financial services and long-term security, regardless of banking history.</p>
-            </article>
-            <article class="acard reveal">
-              <h3>Mission</h3>
-              <p>To empower underserved communities through digital financial solutions that transform everyday transactions into trust, opportunity, and economic growth.</p>
-            </article>
-            <article class="acard reveal">
-              <h3>Long-term goal</h3>
-              <p>Build the largest alternative credit ecosystem in Nigeria, then expand across Africa — creating finance that runs on real behaviour, not gatekeepers.</p>
-            </article>
-          </div>
+        <div class="explore__grid">
+          <a class="ecard reveal" href="product.html">
+            <h3>Product <span class="arrow" aria-hidden="true">→</span></h3>
+            <p>The wallet, savings tools, AI underwriting engine, and the insights that tie them together.</p>
+          </a>
+          <a class="ecard reveal" href="trust-score.html">
+            <h3>Trust Score <span class="arrow" aria-hidden="true">→</span></h3>
+            <p>How a 300–850 score is built from your real behaviour — and how to move it up.</p>
+          </a>
+          <a class="ecard reveal" href="credit.html">
+            <h3>Credit <span class="arrow" aria-hidden="true">→</span></h3>
+            <p>The credit ladder, from nano advances to SME working capital, and how we keep it fair.</p>
+          </a>
+          <a class="ecard reveal" href="how-it-works.html">
+            <h3>How it works <span class="arrow" aria-hidden="true">→</span></h3>
+            <p>Tiered BVN/NIN onboarding in minutes, plus the payment rails Nigeria already trusts.</p>
+          </a>
+          <a class="ecard reveal" href="about.html">
+            <h3>About <span class="arrow" aria-hidden="true">→</span></h3>
+            <p>Our vision and mission — and how we stay compliant and private by design.</p>
+          </a>
+          <a class="ecard reveal" href="waitlist.html">
+            <h3>Join the waitlist <span class="arrow" aria-hidden="true">→</span></h3>
+            <p>Be first to know the moment AzaPay opens in your area.</p>
+          </a>
         </div>
       </div>
     </section>
 
-    <!-- ============ WAITLIST CTA ============ -->
-    <section class="section cta" id="waitlist">
+    <!-- ============ CTA ============ -->
+    <section class="section cta">
       <div class="container">
         <div class="cta__card reveal">
           <div class="cta__bg" aria-hidden="true"></div>
           <div class="cta__content">
             <h2>Be first to bank the unbanked with us.</h2>
             <p>Join the waitlist and we'll let you know the moment AzaPay opens in your area.</p>
-            <form class="cta__form" id="waitlistForm" novalidate>
-              <div class="field">
-                <label class="sr-only" for="email">Email address</label>
-                <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email" aria-describedby="formNote" required />
-              </div>
-              <button type="submit" class="btn btn--gold btn--lg">Join the waitlist</button>
-            </form>
-            <p class="cta__formnote" id="formNote" role="status" aria-live="polite"></p>
-            <p class="cta__micro">No spam. We'll only email you about early access.</p>
+            <a href="waitlist.html" class="btn btn--gold btn--lg">Join the waitlist</a>
           </div>
         </div>
       </div>
     </section>
   </main>
 
-  <!-- ============ FOOTER ============ -->
   <footer class="footer">
     <div class="container footer__inner">
       <div class="footer__brand">
-        <a href="#top" class="brand brand--light" aria-label="AzaPay home">
+        <a href="index.html" class="brand brand--light" aria-label="AzaPay home">
           <span class="brand__mark" aria-hidden="true">
             <svg viewBox="0 0 100 100" width="32" height="32">
               <rect width="100" height="100" rx="24" fill="#F4B740"/>
@@ -697,30 +340,30 @@
           <span class="brand__name">AzaPay</span>
         </a>
         <p class="footer__tag">Banking the Unbanked.</p>
-        <p class="footer__loc">🇳🇬 Built for Nigeria · expanding across Africa</p>
+        <p class="footer__loc"><span aria-hidden="true">🇳🇬</span> Built for Nigeria · expanding across Africa</p>
       </div>
 
       <nav class="footer__col" aria-label="Product">
         <h2>Product</h2>
-        <a href="#features">Wallet &amp; savings</a>
-        <a href="#trust">Trust Score</a>
-        <a href="#loans">Credit ladder</a>
-        <a href="#how">How it works</a>
+        <a href="product.html">Wallet &amp; savings</a>
+        <a href="trust-score.html">Trust Score</a>
+        <a href="credit.html">Credit ladder</a>
+        <a href="how-it-works.html">How it works</a>
       </nav>
 
       <nav class="footer__col" aria-label="Company">
         <h2>Company</h2>
-        <a href="#about">About</a>
-        <a href="#compliance">Compliance</a>
-        <a href="#problem">The problem</a>
-        <a href="#waitlist">Join waitlist</a>
+        <a href="about.html">About</a>
+        <a href="about.html#compliance">Compliance</a>
+        <a href="index.html#problem">The problem</a>
+        <a href="waitlist.html">Join waitlist</a>
       </nav>
 
       <nav class="footer__col" aria-label="Legal">
         <h2>Legal</h2>
-        <a href="#compliance">Privacy &amp; NDPA</a>
-        <a href="#compliance">Responsible lending</a>
-        <a href="#compliance">Terms (coming soon)</a>
+        <a href="about.html#compliance">Privacy &amp; NDPA</a>
+        <a href="credit.html#principles">Responsible lending</a>
+        <a href="waitlist.html">Terms (coming soon)</a>
       </nav>
     </div>
 

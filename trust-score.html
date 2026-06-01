@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#07502F" />
+  <title>Financial Trust Score — Credit from Real Behaviour | AzaPay</title>
+  <meta name="description" content="The AzaPay Financial Trust Score is a 300–850 score built from your real behaviour — repayment, cash flow, savings, bills, and tenure — recomputed continuously and fully explainable." />
+  <meta name="author" content="AzaPay" />
+
+  <link rel="canonical" href="https://azapay-website.vercel.app/trust-score.html" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://azapay-website.vercel.app/trust-score.html" />
+  <meta property="og:title" content="Your Financial Trust Score — AzaPay" />
+  <meta property="og:description" content="A 300–850 score that turns your real activity into proof of creditworthiness." />
+  <meta property="og:site_name" content="AzaPay" />
+  <meta property="og:locale" content="en_NG" />
+  <meta property="og:image" content="https://azapay-website.vercel.app/assets/og-cover.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="AzaPay — Banking the Unbanked" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Your Financial Trust Score — AzaPay" />
+  <meta name="twitter:description" content="A 300–850 score that turns your real activity into proof of creditworthiness." />
+  <meta name="twitter:image" content="https://azapay-website.vercel.app/assets/og-cover.png" />
+  <meta name="twitter:image:alt" content="AzaPay — Banking the Unbanked" />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%2307502F'/%3E%3Cpath d='M30 70 L50 28 L70 70 M38 56 L62 56' stroke='%23F4B740' stroke-width='9' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="nav" id="nav">
+    <div class="container nav__inner">
+      <a href="index.html" class="brand" aria-label="AzaPay home">
+        <span class="brand__mark" aria-hidden="true">
+          <svg viewBox="0 0 100 100" width="34" height="34">
+            <rect width="100" height="100" rx="24" fill="#07502F"/>
+            <path d="M30 70 L50 28 L70 70 M38 56 L62 56" stroke="#F4B740" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+        </span>
+        <span class="brand__name">AzaPay</span>
+      </a>
+      <nav class="nav__links" id="navLinks" aria-label="Primary">
+        <a href="product.html">Product</a>
+        <a href="trust-score.html" aria-current="page">Trust Score</a>
+        <a href="credit.html">Credit</a>
+        <a href="how-it-works.html">How it works</a>
+        <a href="about.html">About</a>
+        <a href="waitlist.html" class="btn btn--primary btn--sm nav__cta">Join the waitlist</a>
+      </nav>
+      <button class="nav__toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <section class="page-hero">
+      <div class="container">
+        <span class="eyebrow reveal">The core IP</span>
+        <h1 class="reveal">Your Financial Trust Score</h1>
+        <p class="page-hero__sub reveal">
+          A 300–850 score that turns your real activity into proof of creditworthiness.
+          It recomputes continuously — and we show you exactly what's moving it.
+        </p>
+      </div>
+    </section>
+
+    <section class="section trust section--top" id="trust">
+      <div class="container">
+        <div class="trust__layout">
+          <!-- Gauge -->
+          <div class="trust__gauge reveal">
+            <svg viewBox="0 0 240 150" class="gauge" role="img" aria-label="Trust Score gauge showing 724 out of 850, rated Good">
+              <path d="M20 140 A100 100 0 0 1 220 140" fill="none" stroke="#e7efe9" stroke-width="20" stroke-linecap="round"/>
+              <path id="gaugeArc" d="M20 140 A100 100 0 0 1 220 140" fill="none" stroke="url(#gaugeGrad)" stroke-width="20" stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="314"/>
+              <defs>
+                <linearGradient id="gaugeGrad" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0" stop-color="#C0392B"/>
+                  <stop offset="0.5" stop-color="#0E7C4A"/>
+                  <stop offset="1" stop-color="#F4B740"/>
+                </linearGradient>
+              </defs>
+            </svg>
+            <div class="gauge__center">
+              <p class="gauge__num"><span class="count" data-target="724" data-duration="1600">724</span></p>
+              <p class="gauge__rating">Good · trending up</p>
+              <p class="gauge__scale">300 — 850</p>
+            </div>
+          </div>
+
+          <!-- Signal weights -->
+          <div class="trust__signals reveal">
+            <h2 class="trust__signals-title">What the score is built from</h2>
+            <ul class="weights" aria-label="Trust Score signal weighting">
+              <li class="weight">
+                <div class="weight__top"><span>Repayment history</span><b>35%</b></div>
+                <div class="bar"><i style="--w:35%"></i></div>
+                <small>On-time repayment of any prior AzaPay credit.</small>
+              </li>
+              <li class="weight">
+                <div class="weight__top"><span>Cash-flow stability</span><b>20%</b></div>
+                <div class="bar"><i style="--w:20%"></i></div>
+                <small>Consistent inflows and a positive net balance over time.</small>
+              </li>
+              <li class="weight">
+                <div class="weight__top"><span>Savings behaviour</span><b>15%</b></div>
+                <div class="bar"><i style="--w:15%"></i></div>
+                <small>Regular contributions and untouched savings balances.</small>
+              </li>
+              <li class="weight">
+                <div class="weight__top"><span>Bill &amp; obligation reliability</span><b>15%</b></div>
+                <div class="bar"><i style="--w:15%"></i></div>
+                <small>On-time airtime, utilities, and rent payments.</small>
+              </li>
+              <li class="weight">
+                <div class="weight__top"><span>Transaction depth &amp; tenure</span><b>10%</b></div>
+                <div class="bar"><i style="--w:10%"></i></div>
+                <small>Volume, variety, and length of platform activity.</small>
+              </li>
+              <li class="weight">
+                <div class="weight__top"><span>Verification level</span><b>5%</b></div>
+                <div class="bar"><i style="--w:5%"></i></div>
+                <small>KYC tier completeness and identity confidence.</small>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- How scores move -->
+        <div class="trust__moves">
+          <article class="move reveal">
+            <span class="move__icon up" aria-hidden="true">▲</span>
+            <h3>Positive events lift it</h3>
+            <p>On-time repayments, steady savings, and consistent inflows raise your score gradually — unlocking higher limits and cheaper pricing.</p>
+          </article>
+          <article class="move reveal">
+            <span class="move__icon down" aria-hidden="true">▼</span>
+            <h3>Setbacks lower it fairly</h3>
+            <p>Missed repayments or erratic activity pull it down, with the steepest penalty on missed credit — but never with harassment.</p>
+          </article>
+          <article class="move reveal">
+            <span class="move__icon time" aria-hidden="true">⟲</span>
+            <h3>Recent behaviour counts most</h3>
+            <p>Recency is weighted heavily, so a single setback doesn't define you. Get back on track and your score recovers.</p>
+          </article>
+          <article class="move reveal">
+            <span class="move__icon eye" aria-hidden="true">👁</span>
+            <h3>Always explainable</h3>
+            <p>You see the top factors moving your score and concrete actions to improve it — good UX and aligned with fair-lending expectations.</p>
+          </article>
+        </div>
+
+        <p class="trust__note reveal">
+          We start with a transparent rules-plus-scorecard model for the first cohorts,
+          then layer machine learning once there's enough labelled repayment data to train
+          and validate it responsibly.
+        </p>
+      </div>
+    </section>
+
+    <section class="section cta">
+      <div class="container">
+        <div class="cta__card reveal">
+          <div class="cta__bg" aria-hidden="true"></div>
+          <div class="cta__content">
+            <h2>Build a credit profile you've never had.</h2>
+            <p>Join the waitlist and start turning everyday activity into a Trust Score.</p>
+            <a href="waitlist.html" class="btn btn--gold btn--lg">Join the waitlist</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__brand">
+        <a href="index.html" class="brand brand--light" aria-label="AzaPay home">
+          <span class="brand__mark" aria-hidden="true">
+            <svg viewBox="0 0 100 100" width="32" height="32">
+              <rect width="100" height="100" rx="24" fill="#F4B740"/>
+              <path d="M30 70 L50 28 L70 70 M38 56 L62 56" stroke="#07502F" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </svg>
+          </span>
+          <span class="brand__name">AzaPay</span>
+        </a>
+        <p class="footer__tag">Banking the Unbanked.</p>
+        <p class="footer__loc"><span aria-hidden="true">🇳🇬</span> Built for Nigeria · expanding across Africa</p>
+      </div>
+
+      <nav class="footer__col" aria-label="Product">
+        <h2>Product</h2>
+        <a href="product.html">Wallet &amp; savings</a>
+        <a href="trust-score.html">Trust Score</a>
+        <a href="credit.html">Credit ladder</a>
+        <a href="how-it-works.html">How it works</a>
+      </nav>
+
+      <nav class="footer__col" aria-label="Company">
+        <h2>Company</h2>
+        <a href="about.html">About</a>
+        <a href="about.html#compliance">Compliance</a>
+        <a href="index.html#problem">The problem</a>
+        <a href="waitlist.html">Join waitlist</a>
+      </nav>
+
+      <nav class="footer__col" aria-label="Legal">
+        <h2>Legal</h2>
+        <a href="about.html#compliance">Privacy &amp; NDPA</a>
+        <a href="credit.html#principles">Responsible lending</a>
+        <a href="waitlist.html">Terms (coming soon)</a>
+      </nav>
+    </div>
+
+    <div class="container footer__bottom">
+      <p class="footer__disclaimer">
+        AzaPay is a product concept in development. Banking, payment, and lending services
+        are intended to be provided through licensed partners and are subject to CBN, FCCPC,
+        and NDPA regulation. Figures and product terms shown are illustrative and should be
+        validated with local counsel and a licensed banking partner before launch.
+      </p>
+      <p class="footer__copy">© <span id="year">2026</span> AzaPay. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <button class="to-top" id="toTop" aria-label="Back to top" hidden>↑</button>
+  <script src="script.js" defer></script>
+</body>
+</html>
