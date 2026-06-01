@@ -1,26 +1,33 @@
 /* =========================================================
    AzaPay — sandbox.js  (AzaPay Bridge simulation)
-   Step 1: cash-flow-based Bridge approval (no payslips/tax returns),
-           with a 2% APR discount for AzaPay-account holders.
+   Step 1: a LIVE cash-flow Bridge calculator. The offer recomputes on
+           every change to trade, cash flow, Trust Score, amount and the
+           APR toggle — approving 85% of the request, flexed by occupation
+           and Trust Score.
    Step 2: same-day disbursement to the wallet (simulated).
    Step 3: add money via a real Stripe TEST-mode Checkout.
-   Loan approval + disbursement are simulated client-side; only the
-   top-up calls Stripe (via /api/create-checkout-session).
+   State is EPHEMERAL (in-memory) — a page refresh resets the whole flow,
+   so the Disburse button auto-resets. Only the top-up calls Stripe.
    ========================================================= */
 (function () {
   "use strict";
-
-  var STORAGE = "azapay_sandbox_v2";
 
   // --- Bridge pricing (illustrative, test-mode only) ---
   var BASE_APR = 24;          // annual %
   var AZA_DISCOUNT = 2;       // % off APR when paid into an AzaPay account
   var TENOR_DAYS = 30;        // bridge term
-  var CASHFLOW_FACTOR = 0.5;  // approve up to 50% of monthly cash flow
+  var CASHFLOW_FACTOR = 0.5;  // ceiling: up to 50% of monthly cash flow
 
-  var TRADE_LABELS = {
-    electrician: "electrician", plumber: "plumber", mechanic: "mechanic",
-    carpenter: "carpenter", trader: "trader", other: "work"
+  // Approval rate = % of the REQUESTED amount we approve. Starts at 85% and
+  // flexes by occupation (cash-flow stability) and Trust Score, clamped 55–95%.
+  var BASE_RATE = 85;
+  var OCC = {
+    electrician: { delta: 3,  label: "electrician" },
+    plumber:     { delta: 2,  label: "plumber" },
+    mechanic:    { delta: 0,  label: "mechanic" },
+    carpenter:   { delta: -1, label: "carpenter" },
+    trader:      { delta: -4, label: "trader" },
+    other:       { delta: -6, label: "work" }
   };
 
   function ngn(n) {
@@ -29,24 +36,12 @@
     catch (e) { return "₦" + n.toLocaleString(); }
   }
 
+  // Ephemeral state — NOT persisted, so a refresh always resets the flow.
   function defaults() {
     return { balance: 0, score: 724, cashflow: 150000, trade: "electrician",
-             azaAccount: true, loan: null, disbursed: false, lastSession: null };
+             azaAccount: true, approved: false, disbursed: false, offer: null, funded: null };
   }
-  function load() {
-    try { return Object.assign(defaults(), JSON.parse(localStorage.getItem(STORAGE) || "{}")); }
-    catch (e) { return defaults(); }
-  }
-  function save() { try { localStorage.setItem(STORAGE, JSON.stringify(state)); } catch (e) { /* ignore */ } }
-
-  var state = load();
-  // Sanitise persisted values (valid JSON can still hold bad types from devtools edits).
-  state.score = Math.min(850, Math.max(300, parseInt(state.score, 10) || 724));
-  state.balance = Math.max(0, Math.round(Number(state.balance) || 0));
-  state.cashflow = Math.min(5000000, Math.max(0, parseInt(state.cashflow, 10) || 150000));
-  state.azaAccount = state.azaAccount !== false;
-  if (!TRADE_LABELS[state.trade]) state.trade = "electrician";
-  if (state.loan && typeof state.loan.approved !== "number") state.loan = null;
+  var state = defaults();
 
   // --- Eligibility / pricing helpers ---
   function scoreTier(score) {
@@ -61,11 +56,26 @@
     return Math.min(scoreTier(score), byCash);
   }
   function effectiveAPR() { return state.azaAccount ? BASE_APR - AZA_DISCOUNT : BASE_APR; }
-  function applyRate(loan) {
-    loan.apr = effectiveAPR();
-    loan.fee = Math.round(loan.approved * (loan.apr / 100) * (TENOR_DAYS / 365));
-    loan.total = loan.approved + loan.fee;
-    loan.saved = state.azaAccount;
+  function tradeMeta() { return OCC[state.trade] || OCC.other; }
+  function approvalRate() {
+    var scoreDelta = Math.round((state.score - 700) / 15); // ~+1 per 15 pts above 700
+    return Math.max(55, Math.min(95, BASE_RATE + tradeMeta().delta + scoreDelta));
+  }
+
+  // The single source of truth — a pure function of the current inputs.
+  function computeOffer() {
+    var requested = parseInt(els.loanAmt.value, 10) || 0;
+    var limit = maxLimit(state.score, state.cashflow);
+    var rate = approvalRate();
+    var apr = effectiveAPR();
+    var base = { requested: requested, rate: rate, apr: apr, limit: limit,
+                 approved: 0, fee: 0, total: 0, counterOffered: false };
+    if (requested < 2000) return Object.assign(base, { eligible: false, reason: "Enter at least ₦2,000 to request an advance." });
+    if (limit < 2000) return Object.assign(base, { eligible: false, reason: "Your cash flow and Trust Score qualify for too little right now — raise either to unlock a Bridge advance." });
+    var raw = Math.round(requested * rate / 100);            // 85%-ish of the request
+    var approved = Math.min(raw, limit);                     // capped by the cash-flow/score ceiling
+    var fee = Math.round(approved * (apr / 100) * (TENOR_DAYS / 365));
+    return Object.assign(base, { eligible: true, approved: approved, fee: fee, total: approved + fee, counterOffered: raw > limit });
   }
 
   var $ = function (id) { return document.getElementById(id); };
@@ -108,22 +118,48 @@
     if (els.aprPreview) els.aprPreview.textContent = effectiveAPR() + "%";
   }
 
-  function renderLoan() {
+  // Live offer box — always reflects the current inputs (or the funded snapshot).
+  function renderOffer() {
     if (!els.loanTerms) return;
-    if (!state.loan) { els.loanTerms.hidden = true; setStep2(false); return; }
-    var l = state.loan;
+
+    if (state.disbursed && state.funded) {
+      var f = state.funded;
+      els.loanTerms.hidden = false;
+      els.loanTerms.className = "sbx-terms is-approved";
+      els.loanTerms.innerHTML =
+        "<b>Funded: " + ngn(f.approved) + "</b> &middot; " + f.rate + "% of " + ngn(f.requested) +
+        " &middot; repay <b>" + ngn(f.total) + "</b> in " + TENOR_DAYS + " days." +
+        "<br><span class=\"sbx-muted\">Disbursed to your wallet. Refresh or tap Reset to start a new advance.</span>";
+      setStep2(true);
+      return;
+    }
+
+    var o = computeOffer();
+    state.offer = o;
+    if (state.approved && !o.eligible) state.approved = false; // invalidated by a change
+
+    if (!o.eligible) {
+      els.loanTerms.hidden = false;
+      els.loanTerms.className = "sbx-terms is-decline";
+      els.loanTerms.textContent = o.reason;
+      setStep2(false);
+      return;
+    }
+
+    var head = state.approved ? "✓ Approved" : "Your live quote";
+    var notes = "";
+    if (o.counterOffered) notes += "<br><span class=\"sbx-muted\">Capped at your current limit of " + ngn(o.limit) + ".</span>";
+    notes += "<br><span class=\"sbx-muted\">" +
+      (state.azaAccount ? "✓ 2% AzaPay-account discount applied. " : "Tick the AzaPay option to save 2% APR. ") +
+      "Rate " + o.rate + "% — from your " + tradeMeta().label + " trade and " + state.score + " Trust Score" +
+      (o.rate < 95 ? "; raise your score for a higher rate." : ".") + "</span>";
+
     els.loanTerms.hidden = false;
-    els.loanTerms.className = "sbx-terms";
-    var saved = l.saved
-      ? '<br><span class="sbx-muted">✓ 2% AzaPay-account discount applied.</span>'
-      : '<br><span class="sbx-muted">Tick the AzaPay-account option above to save 2% APR.</span>';
-    var counter = l.counterOffered
-      ? '<br><span class="sbx-muted">Counter-offer: approved your current limit of ' + ngn(l.approved) + '.</span>'
-      : "";
+    els.loanTerms.className = "sbx-terms" + (state.approved ? " is-approved" : "");
     els.loanTerms.innerHTML =
-      "<b>Approved: " + ngn(l.approved) + "</b> &middot; APR " + l.apr + "% &middot; fee " + ngn(l.fee) +
-      " over " + l.tenor + " days &middot; repay <b>" + ngn(l.total) + "</b>." + saved + counter;
-    setStep2(true);
+      "<b>" + head + ": " + ngn(o.approved) + "</b> — " + o.rate + "% of " + ngn(o.requested) +
+      " &middot; APR " + o.apr + "% &middot; fee " + ngn(o.fee) + " over " + TENOR_DAYS + " days &middot; repay <b>" + ngn(o.total) + "</b>." + notes;
+    setStep2(state.approved);
   }
 
   function setStep2(unlocked) {
@@ -134,61 +170,35 @@
       els.disburseBtn.textContent = "Disbursed ✓";
     } else {
       els.step2.classList.remove("is-done");
-      els.disburseBtn.textContent = "Disburse " + (state.loan ? ngn(state.loan.approved) : ngn(0));
+      var amt = (state.offer && state.offer.eligible) ? state.offer.approved : 0;
+      els.disburseBtn.textContent = "Disburse " + ngn(amt);
     }
   }
 
-  // ---- Step 1: Bridge approval ----
+  function recalc() { renderEligibility(); renderOffer(); }
+
+  // ---- Step 1: approve (commit the current live quote) ----
   function approve() {
-    if (state.loan && state.disbursed) {
-      showAlert("info", "This advance was already disbursed. Tap Reset to start a new one.");
-      return;
-    }
-    var need = parseInt(els.loanAmt.value, 10) || 0;
-    var limit = maxLimit(state.score, state.cashflow);
+    if (state.disbursed) { showAlert("info", "This advance was already disbursed. Refresh or tap Reset to start a new one."); return; }
     clearAlert();
-    if (need < 2000) {
-      state.loan = null;
-      state.disbursed = false;
-      save();
-      setStep2(false);
-      els.loanTerms.hidden = false;
-      els.loanTerms.className = "sbx-terms is-decline";
-      els.loanTerms.textContent = "Enter at least ₦2,000 to apply.";
-      showAlert("err", "Enter at least ₦2,000 to apply.");
-      return;
-    }
-    if (limit < 2000) {
-      state.loan = null;
-      state.disbursed = false;
-      save();
-      setStep2(false);
-      els.loanTerms.hidden = false;
-      els.loanTerms.className = "sbx-terms is-decline";
-      els.loanTerms.textContent = "Your cash flow and score qualify for too little right now — raise either to unlock a Bridge advance.";
-      showAlert("info", "Your cash flow and score qualify for too little right now — raise either to unlock a Bridge advance.");
-      return;
-    }
-    var approved = Math.min(need, limit);
-    var loan = { approved: approved, tenor: TENOR_DAYS, counterOffered: need > limit };
-    applyRate(loan);
-    state.loan = loan;
-    state.disbursed = false;
-    save();
-    renderLoan();
-    var label = TRADE_LABELS[state.trade] || "work";
-    showAlert("ok", "Bridge advance approved for " + ngn(approved) + " (" + label + "). Continue to funding.");
+    var o = computeOffer();
+    if (!o.eligible) { state.approved = false; renderOffer(); showAlert("err", o.reason); return; }
+    state.approved = true;
+    renderOffer();
+    showAlert("ok", "Approved " + ngn(o.approved) + " — " + o.rate + "% of " + ngn(o.requested) + " for your " + tradeMeta().label + " work. Continue to funding.");
   }
 
   // ---- Step 2: same-day disbursement (simulated) ----
   function disburse() {
-    if (!state.loan || state.disbursed) return;
-    state.balance += state.loan.approved;
+    if (!state.approved || state.disbursed) return;
+    var o = computeOffer();
+    if (!o.eligible) return;
+    state.balance += o.approved;
+    state.funded = o;
     state.disbursed = true;
-    save();
     renderWallet();
-    setStep2(true);
-    showAlert("ok", ngn(state.loan.approved) + " funded to your wallet (same-day, simulated).");
+    renderOffer();
+    showAlert("ok", ngn(o.approved) + " funded to your wallet (same-day, simulated).");
   }
 
   // ---- Step 3: add money via Stripe test Checkout ----
@@ -204,10 +214,7 @@
     }).then(function (r) {
       return r.json().then(function (data) { return { ok: r.ok, status: r.status, data: data }; });
     }).then(function (res) {
-      if (res.ok && res.data && res.data.url) {
-        window.location.href = res.data.url; // hand off to Stripe's hosted test checkout
-        return;
-      }
+      if (res.ok && res.data && res.data.url) { window.location.href = res.data.url; return; }
       els.topupBtn.disabled = false;
       els.topupBtn.textContent = original;
       if (res.status === 503 || (res.data && res.data.error === "stripe_not_configured")) {
@@ -223,95 +230,71 @@
     });
   }
 
-  // ---- Handle return from Stripe ----
+  // ---- Handle return from Stripe (state is ephemeral; URL is cleaned up front) ----
   function handleReturn() {
     var q = new URLSearchParams(window.location.search);
     var status = q.get("status");
     if (!status) return;
     var clean = function () { history.replaceState(null, "", window.location.pathname); };
-
     if (status === "cancelled") { showAlert("info", "Checkout cancelled — no payment was made."); clean(); return; }
     if (status === "success") {
       var sid = q.get("session_id");
-      if (!sid) { clean(); return; }
-      if (sid === state.lastSession) { clean(); return; }
-      // Reserve the session and strip the URL up front so a refresh during the
-      // in-flight confirm can't credit the wallet twice.
-      state.lastSession = sid;
-      save();
-      clean();
+      clean(); // strip the query so a refresh can't re-credit
+      if (!sid) return;
       showAlert("info", "Confirming your test payment…");
       fetch("/api/checkout-session?session_id=" + encodeURIComponent(sid))
         .then(function (r) { return r.json(); })
         .then(function (d) {
           if (d && d.payment_status === "paid") {
-            var added = Math.round((d.amount_total || 0) / 100); // minor unit -> naira
+            var added = Math.round((d.amount_total || 0) / 100);
             state.balance += added;
-            save();
             renderWallet();
             showAlert("ok", "Added " + ngn(added) + " to your wallet via a Stripe test payment. ✓");
           } else {
             showAlert("err", "Payment was not completed.");
           }
         })
-        .catch(function () {
-          state.lastSession = null; save(); // release the reservation so a retry is possible
-          showAlert("err", "Couldn't confirm the payment — no balance was added. Tap “Add money via Stripe” to try again.");
-        });
+        .catch(function () { showAlert("err", "Couldn't confirm the payment — tap “Add money via Stripe” to try again."); });
     }
   }
 
   function reset() {
     state = defaults();
-    save();
     renderWallet();
-    renderEligibility();
     if (els.scoreRange) els.scoreRange.value = state.score;
     if (els.cashflow) els.cashflow.value = state.cashflow;
     if (els.azaToggle) els.azaToggle.checked = state.azaAccount;
-    if (els.tradeChips) {
-      var first = els.tradeChips.querySelector('.chip[data-trade="' + state.trade + '"]') || els.tradeChips.querySelector(".chip");
-      if (first) selectInGroup(els.tradeChips, first);
-    }
     if (els.loanAmt) els.loanAmt.value = 50000;
     selectedTopup = 5000;
-    if (els.topupChips) {
-      var firstTopup = els.topupChips.querySelector('.chip[data-amt="5000"]') || els.topupChips.querySelector(".chip");
-      if (firstTopup) selectInGroup(els.topupChips, firstTopup);
+    if (els.tradeChips) {
+      var t = els.tradeChips.querySelector('.chip[data-trade="' + state.trade + '"]') || els.tradeChips.querySelector(".chip");
+      if (t) selectInGroup(els.tradeChips, t);
     }
-    if (els.loanTerms) els.loanTerms.hidden = true;
-    setStep2(false);
-    if (els.disburseBtn) { els.disburseBtn.disabled = true; els.disburseBtn.textContent = "Disburse ₦0"; }
-    if (els.step2) els.step2.classList.remove("is-done");
+    if (els.topupChips) {
+      var tu = els.topupChips.querySelector('.chip[data-amt="5000"]') || els.topupChips.querySelector(".chip");
+      if (tu) selectInGroup(els.topupChips, tu);
+    }
+    recalc();
     showAlert("info", "Sandbox reset.");
   }
 
   // ---- Wire up ----
   if (els.scoreRange) {
     els.scoreRange.value = state.score;
-    els.scoreRange.addEventListener("input", function () {
-      state.score = parseInt(els.scoreRange.value, 10);
-      renderEligibility(); renderWallet(); save();
-    });
+    els.scoreRange.addEventListener("input", function () { state.score = parseInt(els.scoreRange.value, 10); renderWallet(); recalc(); });
   }
   if (els.cashflow) {
     els.cashflow.value = state.cashflow;
-    els.cashflow.addEventListener("input", function () {
-      state.cashflow = Math.max(0, parseInt(els.cashflow.value, 10) || 0);
-      renderEligibility(); save();
-    });
+    els.cashflow.addEventListener("input", function () { state.cashflow = Math.max(0, parseInt(els.cashflow.value, 10) || 0); recalc(); });
   }
   if (els.azaToggle) {
     els.azaToggle.checked = state.azaAccount;
-    els.azaToggle.addEventListener("change", function () {
-      state.azaAccount = els.azaToggle.checked;
-      renderEligibility();
-      if (state.loan && !state.disbursed) { applyRate(state.loan); renderLoan(); }
-      save();
-    });
+    els.azaToggle.addEventListener("change", function () { state.azaAccount = els.azaToggle.checked; recalc(); });
+  }
+  if (els.loanAmt) {
+    els.loanAmt.addEventListener("input", function () { renderOffer(); });
   }
   if (els.tradeChips) {
-    // reflect persisted trade
     var sel = els.tradeChips.querySelector('.chip[data-trade="' + state.trade + '"]');
     if (sel) selectInGroup(els.tradeChips, sel);
     els.tradeChips.addEventListener("click", function (e) {
@@ -319,7 +302,7 @@
       if (!btn) return;
       selectInGroup(els.tradeChips, btn);
       state.trade = btn.getAttribute("data-trade");
-      save();
+      recalc();
     });
   }
   if (els.approveBtn) els.approveBtn.addEventListener("click", approve);
@@ -335,9 +318,8 @@
     });
   }
 
-  // ---- Initial render ----
+  // ---- Initial render (shows a live quote immediately) ----
   renderWallet();
-  renderEligibility();
-  renderLoan();
+  recalc();
   handleReturn();
 })();

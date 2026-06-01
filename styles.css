@@ -505,6 +505,7 @@ h3 { font-size: 1.25rem; }
 
 .sbx-terms { background: var(--green-050); border: 1px solid var(--green-100); border-radius: 12px; padding: 14px 16px; margin-top: 14px; font-size: .92rem; line-height: 1.7; }
 .sbx-terms.is-decline { background: #fbe9e7; border-color: #f0b3aa; color: #9b2c1e; }
+.sbx-terms.is-approved { background: var(--green-100); border-color: var(--green-500); }
 .sbx-terms b { font-family: var(--font-head); }
 
 .amount-chips { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
