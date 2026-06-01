@@ -172,20 +172,7 @@
 
         <p class="sbx-security"><span aria-hidden="true">🔒</span> Bank-level security · 256-bit encryption · biometric login · NDPA 2023 compliant</p>
 
-        <details class="sbx-setup" id="setup">
-          <summary>Enable live test payments (Stripe setup)</summary>
-          <ol>
-            <li>Create a free account at <a href="https://dashboard.stripe.com/register" target="_blank" rel="noopener">dashboard.stripe.com</a> — test mode works immediately, no activation needed.</li>
-            <li>With <strong>Test mode</strong> on, copy your secret key (<code>sk_test_…</code>) from Developers → API keys.</li>
-            <li>Add it to this Vercel project and redeploy:
-              <pre><code>vercel env add STRIPE_SECRET_KEY production
-vercel --prod</code></pre>
-              (paste the <code>sk_test_…</code> key when prompted).
-            </li>
-            <li>Reload this page and run step 3 with test card <code>4242 4242 4242 4242</code>.</li>
-          </ol>
-          <noscript>This sandbox needs JavaScript enabled.</noscript>
-        </details>
+        <noscript><p class="sbx-muted">This interactive sandbox needs JavaScript enabled.</p></noscript>
       </div>
     </section>
   </main>

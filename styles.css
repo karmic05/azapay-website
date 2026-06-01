@@ -513,12 +513,6 @@ h3 { font-size: 1.25rem; }
 .chip:hover { border-color: var(--green-300); }
 .chip.is-selected { border-color: var(--green-600); color: var(--green-700); background: var(--green-050); }
 
-.sbx-setup { margin-top: 26px; background: #fff; border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 2px 22px; }
-.sbx-setup summary { cursor: pointer; font-family: var(--font-head); font-weight: 700; padding: 16px 0; color: var(--green-800); }
-.sbx-setup ol { padding: 0 0 18px 22px; display: flex; flex-direction: column; gap: 10px; color: var(--ink-soft); font-size: .92rem; }
-.sbx-setup li { list-style: decimal; }
-.sbx-setup pre { background: var(--green-900); color: var(--green-100); border-radius: 10px; padding: 12px 14px; overflow-x: auto; font-size: .82rem; margin: 8px 0; }
-.sbx-setup pre code { background: none; padding: 0; color: inherit; }
 
 /* Bridge feature highlights */
 .bridge-feats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 22px; }

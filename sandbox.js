@@ -85,7 +85,7 @@
     cashflow: $("cashflow"), tradeChips: $("tradeChips"), azaToggle: $("azaToggle"),
     loanAmt: $("loanAmt"), approveBtn: $("approveBtn"), loanTerms: $("loanTerms"),
     step2: $("step2"), disburseBtn: $("disburseBtn"),
-    topupChips: $("topupChips"), topupBtn: $("topupBtn"), setup: $("setup"), resetBtn: $("resetBtn")
+    topupChips: $("topupChips"), topupBtn: $("topupBtn"), resetBtn: $("resetBtn")
   };
   if (!els.balance) return; // not the sandbox page
 
@@ -218,8 +218,7 @@
       els.topupBtn.disabled = false;
       els.topupBtn.textContent = original;
       if (res.status === 503 || (res.data && res.data.error === "stripe_not_configured")) {
-        showAlert("info", "Stripe isn't configured yet — open “Enable live test payments” below to add a test key. (Steps 1 & 2 work without it.)");
-        if (els.setup) els.setup.open = true;
+        showAlert("info", "Stripe isn't configured for this environment. Steps 1 & 2 work without it; see the README to add a test key.");
       } else {
         showAlert("err", (res.data && res.data.message) || "Could not start checkout. Please try again.");
       }
