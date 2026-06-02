@@ -3,6 +3,9 @@
 A self-contained, responsive marketing site for **AzaPay**, a digital banking and
 AI-credit platform for unbanked and underbanked Nigerians.
 
+> 📓 **Full build history, architecture, feature internals, and decisions:**
+> see [PROJECT_LOG.md](PROJECT_LOG.md).
+
 ## Run it
 
 No build step required. Either:
