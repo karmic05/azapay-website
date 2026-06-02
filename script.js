@@ -161,37 +161,24 @@
   var form = document.getElementById("waitlistForm");
   var note = document.getElementById("formNote");
   var emailInput = document.getElementById("email");
-  var emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-  if (form && note && emailInput) {
-    emailInput.addEventListener("input", function () {
-      emailInput.setAttribute("aria-invalid", "false");
-      if (note.classList.contains("err")) { note.textContent = ""; note.className = "cta__formnote"; }
-    });
-
+  if (form) {
     form.addEventListener("submit", function (e) {
       e.preventDefault();
-      var value = emailInput.value.trim();
-      if (!emailRe.test(value)) {
-        emailInput.setAttribute("aria-invalid", "true");
-        emailInput.focus();
-        note.textContent = "Please enter a valid email address.";
-        note.className = "cta__formnote err";
-        return;
-      }
-      // Front-end only: persist locally as a friendly confirmation.
+      // Native constraint validation across all fields (name, email, mobile, age, ID, city, ZIP).
+      if (!form.checkValidity()) { form.reportValidity(); return; }
+      // Demo: persist only the email locally; never store sensitive KYC fields.
       try {
-        var list = JSON.parse(localStorage.getItem("azapay_waitlist") || "[]");
-        if (list.indexOf(value) === -1) list.push(value);
-        localStorage.setItem("azapay_waitlist", JSON.stringify(list));
-      } catch (err) { /* storage unavailable — ignore */ }
-
-      form.reset();
-      emailInput.setAttribute("aria-invalid", "false");
+        var em = emailInput ? emailInput.value.trim() : "";
+        if (em) {
+          var list = JSON.parse(localStorage.getItem("azapay_waitlist") || "[]");
+          if (list.indexOf(em) === -1) list.push(em);
+          localStorage.setItem("azapay_waitlist", JSON.stringify(list));
+        }
+      } catch (err) { /* storage unavailable */ }
       var modal = document.getElementById("approveModal");
       if (modal) {
         runApproval(modal);
-      } else {
+      } else if (note) {
         note.textContent = "🎉 You're on the list! We'll be in touch about early access.";
         note.className = "cta__formnote ok";
       }

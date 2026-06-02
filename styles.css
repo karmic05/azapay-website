@@ -426,14 +426,18 @@ h3 { font-size: 1.25rem; }
 .cta__content { position: relative; z-index: 1; max-width: 620px; margin: 0 auto; }
 .cta__content h2 { margin-bottom: 14px; }
 .cta__content > p { color: rgba(255,255,255,.85); font-size: 1.08rem; margin-bottom: 28px; }
-.cta__form { display: flex; gap: 12px; max-width: 480px; margin: 0 auto; }
-.field { flex: 1; }
-.cta__form input {
-  width: 100%; height: 56px; border-radius: 999px; border: none; padding: 0 22px;
+.wl-form { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; max-width: 520px; margin: 0 auto; text-align: left; }
+.wl-field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.wl-field--full { grid-column: 1 / -1; }
+.wl-field label { font-size: .82rem; font-weight: 600; color: #fff; }
+.wl-hint { font-weight: 500; color: rgba(255, 255, 255, .72); }
+.wl-form input {
+  width: 100%; height: 48px; border-radius: 12px; border: none; padding: 0 14px;
   font-size: 1rem; color: var(--ink); background: #fff; box-shadow: var(--shadow-sm);
 }
-.cta__form input::placeholder { color: var(--ink-mute); }
-.cta__form input[aria-invalid="true"] { border: 2px solid var(--red-500); box-shadow: 0 0 0 3px rgba(192,57,43,.35); }
+.wl-form input::placeholder { color: var(--ink-mute); }
+.wl-form input:focus-visible { outline-offset: 1px; }
+.wl-form__submit { grid-column: 1 / -1; width: 100%; margin-top: 6px; }
 .cta__formnote { min-height: 22px; margin-top: 14px; font-weight: 600; font-size: .95rem; }
 /* Solid dark chip guarantees AA contrast regardless of gradient position behind it */
 .cta__formnote.ok,
@@ -593,8 +597,7 @@ html.sbx-unlocked .sbx-gate { display: none; }
 @media (max-width: 560px) {
   body { font-size: 16px; }
   .features__grid, .problem__grid, .value__grid, .trust__moves, .compliance__grid, .principles__grid, .explore__grid { grid-template-columns: 1fr; }
-  .cta__form { flex-direction: column; }
-  .cta__form input { text-align: center; }
+  .wl-form { grid-template-columns: 1fr; }
   .footer__inner { grid-template-columns: 1fr 1fr; gap: 28px 20px; }
   .footer__brand { grid-column: 1 / -1; }
   .footer__col a { min-height: 44px; display: flex; align-items: center; }

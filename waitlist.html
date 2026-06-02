@@ -82,15 +82,39 @@
           <div class="cta__content">
             <h2>Reserve your spot</h2>
             <p>Join the waitlist for AzaPay early access.</p>
-            <form class="cta__form" id="waitlistForm" novalidate>
-              <div class="field">
-                <label class="sr-only" for="email">Email address</label>
-                <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email" aria-describedby="formNote" required />
+            <form class="wl-form" id="waitlistForm" novalidate>
+              <div class="wl-field wl-field--full">
+                <label for="name">Full name</label>
+                <input type="text" id="name" name="name" autocomplete="name" placeholder="Ada Obi" required />
               </div>
-              <button type="submit" class="btn btn--gold btn--lg">Join the waitlist</button>
+              <div class="wl-field wl-field--full">
+                <label for="email">Email address</label>
+                <input type="email" id="email" name="email" autocomplete="email" placeholder="you@example.com" aria-describedby="formNote" required />
+              </div>
+              <div class="wl-field">
+                <label for="mobile">Mobile number</label>
+                <input type="tel" id="mobile" name="mobile" autocomplete="tel" inputmode="tel" placeholder="0801 234 5678" pattern="[0-9+()\s\-]{7,20}" title="Enter a valid phone number" required />
+              </div>
+              <div class="wl-field">
+                <label for="age">Age</label>
+                <input type="number" id="age" name="age" inputmode="numeric" min="18" max="100" placeholder="18+" required />
+              </div>
+              <div class="wl-field wl-field--full">
+                <label for="idNumber">ID number <span class="wl-hint">(BVN or NIN)</span></label>
+                <input type="text" id="idNumber" name="idNumber" inputmode="numeric" pattern="\d{11}" title="Your 11-digit BVN or NIN" placeholder="11-digit BVN or NIN" required />
+              </div>
+              <div class="wl-field">
+                <label for="city">City</label>
+                <input type="text" id="city" name="city" autocomplete="address-level2" placeholder="Lagos" required />
+              </div>
+              <div class="wl-field">
+                <label for="zip">ZIP / postal code</label>
+                <input type="text" id="zip" name="zip" autocomplete="postal-code" inputmode="numeric" placeholder="100001" required />
+              </div>
+              <button type="submit" class="btn btn--gold btn--lg wl-form__submit">Join the waitlist</button>
             </form>
             <p class="cta__formnote" id="formNote" role="status" aria-live="polite"></p>
-            <p class="cta__micro">No spam. We'll only email you about early access.</p>
+            <p class="cta__micro">No spam — and since this is a demo, your details aren't stored or shared.</p>
           </div>
         </div>
 
