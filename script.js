@@ -188,8 +188,31 @@
 
       form.reset();
       emailInput.setAttribute("aria-invalid", "false");
-      note.textContent = "🎉 You're on the list! We'll be in touch about early access.";
-      note.className = "cta__formnote ok";
+      var modal = document.getElementById("approveModal");
+      if (modal) {
+        runApproval(modal);
+      } else {
+        note.textContent = "🎉 You're on the list! We'll be in touch about early access.";
+        note.className = "cta__formnote ok";
+      }
     });
+  }
+
+  // Simulated account-approval flow: faded modal -> approve -> unlock + open the sandbox.
+  function runApproval(modal) {
+    var stage1 = document.getElementById("approveStage1");
+    var stage2 = document.getElementById("approveStage2");
+    modal.hidden = false;
+    document.body.classList.add("modal-open");
+    var heading = modal.querySelector("h2");
+    if (heading) { heading.setAttribute("tabindex", "-1"); heading.focus(); }
+    setTimeout(function () {
+      if (stage1) stage1.hidden = true;
+      if (stage2) stage2.hidden = false;
+      try { sessionStorage.setItem("azapay_approved", "1"); } catch (e) { /* storage unavailable */ }
+      var enter = document.getElementById("enterSandbox");
+      if (enter) enter.focus();
+      setTimeout(function () { window.location.href = "sandbox.html"; }, 2400);
+    }, 1700);
   }
 })();

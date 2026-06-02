@@ -534,6 +534,32 @@ h3 { font-size: 1.25rem; }
   .wallet-card__score { margin-left: 0; text-align: left; }
 }
 
+/* ---------- Account approval modal ---------- */
+body.modal-open { overflow: hidden; }
+.modal { position: fixed; inset: 0; z-index: 200; display: grid; place-items: center; padding: 20px; }
+.modal[hidden] { display: none; }
+.modal__backdrop { position: absolute; inset: 0; background: rgba(5, 43, 26, .55); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); animation: sbxFade .25s ease; }
+.modal__card { position: relative; z-index: 1; background: #fff; border-radius: var(--radius-lg); padding: 40px 34px; max-width: 420px; width: 100%; text-align: center; box-shadow: var(--shadow-lg); animation: sbxPop .3s var(--ease); }
+.modal__card h2 { font-size: 1.5rem; margin-bottom: 8px; }
+.modal__card p { color: var(--ink-soft); }
+.modal__check { width: 64px; height: 64px; border-radius: 50%; background: var(--green-100); color: var(--green-600); font-size: 2rem; font-weight: 700; display: grid; place-items: center; margin: 0 auto 16px; }
+.modal__card .btn { margin-top: 22px; }
+.spinner { width: 48px; height: 48px; border-radius: 50%; border: 4px solid var(--green-100); border-top-color: var(--green-600); margin: 0 auto 18px; animation: sbxSpin .8s linear infinite; }
+@keyframes sbxSpin { to { transform: rotate(360deg); } }
+@keyframes sbxFade { from { opacity: 0; } }
+@keyframes sbxPop { from { opacity: 0; transform: translateY(12px) scale(.98); } }
+
+/* ---------- Sandbox account gate ---------- */
+.sbx-section { position: relative; }
+#sbxBody { transition: filter .3s ease; }
+html:not(.sbx-unlocked) #sbxBody { filter: blur(5px); pointer-events: none; }
+.sbx-gate { position: absolute; inset: 0; z-index: 10; display: grid; place-items: center; padding: 24px; background: rgba(246, 250, 247, .55); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); }
+html.sbx-unlocked .sbx-gate { display: none; }
+.sbx-gate__card { background: #fff; border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 36px 32px; max-width: 440px; text-align: center; box-shadow: var(--shadow-lg); }
+.sbx-gate__lock { display: grid; place-items: center; width: 60px; height: 60px; border-radius: 50%; background: var(--green-100); color: var(--green-700); margin: 0 auto 18px; }
+.sbx-gate__card h2 { font-size: 1.5rem; margin-bottom: 10px; }
+.sbx-gate__card p { color: var(--ink-soft); margin-bottom: 22px; }
+
 /* ---------- Responsive ---------- */
 @media (max-width: 960px) {
   .hero__inner { grid-template-columns: 1fr; text-align: center; }

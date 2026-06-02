@@ -12,6 +12,14 @@
 (function () {
   "use strict";
 
+  // Account gate: enable interaction only once the account is approved.
+  try {
+    if (sessionStorage.getItem("azapay_approved") === "1") {
+      var __sbxBody = document.getElementById("sbxBody");
+      if (__sbxBody) __sbxBody.removeAttribute("inert");
+    }
+  } catch (e) { /* storage unavailable */ }
+
   // --- Bridge pricing (illustrative, test-mode only) ---
   var BASE_APR = 24;          // annual %
   var AZA_DISCOUNT = 2;       // % off APR when paid into an AzaPay account

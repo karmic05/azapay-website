@@ -34,6 +34,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
+  <!-- Unlock the sandbox before first paint if the account was approved (no flash). -->
+  <script>try{if(sessionStorage.getItem('azapay_approved')==='1')document.documentElement.classList.add('sbx-unlocked');}catch(e){}</script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -77,8 +79,8 @@
       </div>
     </section>
 
-    <section class="section section--top">
-      <div class="container sbx">
+    <section class="section section--top sbx-section" id="sbxSection">
+      <div class="container sbx" id="sbxBody" inert>
         <p class="sandbox-notice" role="note">
           <span aria-hidden="true">🧪</span> <strong>Test mode.</strong> No real money moves. For the card step, use Stripe's
           test card <code>4242 4242 4242 4242</code>, any future expiry, and any CVC.
@@ -173,6 +175,18 @@
         <p class="sbx-security"><span aria-hidden="true">🔒</span> Bank-level security · 256-bit encryption · biometric login · NDPA 2023 compliant</p>
 
         <noscript><p class="sbx-muted">This interactive sandbox needs JavaScript enabled.</p></noscript>
+      </div>
+
+      <!-- Locked until the account is approved via the waitlist flow -->
+      <div class="sbx-gate" id="sbxGate">
+        <div class="sbx-gate__card">
+          <span class="sbx-gate__lock" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+          </span>
+          <h2>Sandbox locked</h2>
+          <p>Get approved to explore the AzaPay Bridge sandbox — cash-flow approval in minutes, same-day funding, and a Stripe test-mode top-up.</p>
+          <a class="btn btn--primary btn--lg" href="waitlist.html">Join the waitlist to unlock →</a>
+        </div>
       </div>
     </section>
   </main>
